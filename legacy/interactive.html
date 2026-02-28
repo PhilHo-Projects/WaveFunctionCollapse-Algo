@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wave Function Collapse — Builder</title>
+    <meta name="description"
+        content="Interactive 2D Townscaper-style Wave Function Collapse builder. Click to place terrain and watch the algorithm connect everything." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ─── Main Layout ─── -->
+    <div id="app">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="header-nav">
+                <a href="index.html" class="nav-link">← Explainer</a>
+            </div>
+            <h1>Wave Function Collapse</h1>
+            <p class="subtitle">Interactive Builder</p>
+        </header>
+
+        <!-- Content: Canvas + Panel -->
+        <main id="main">
+
+            <!-- Canvas Container -->
+            <section id="canvas-wrapper">
+                <canvas id="wfc-canvas"></canvas>
+                <!-- Hover tooltip -->
+                <div id="tooltip" class="tooltip hidden"></div>
+            </section>
+
+            <!-- Control Panel -->
+            <aside id="panel">
+
+                <!-- Tools Palette -->
+                <div class="panel-section">
+                    <h2>Paint Tools</h2>
+                    <div class="tool-grid" id="tools-palette">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="panel-section">
+                    <h2>Status</h2>
+                    <div class="status-box">
+                        <span class="status-label">State:</span>
+                        <span id="status-text" class="status-value">Ready</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-label">Placed:</span>
+                        <span id="collapsed-count" class="status-value mono">0 / 0</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-label">Propagation Steps:</span>
+                        <span id="step-count" class="status-value mono">0</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="panel-section">
+                    <h2>Actions</h2>
+                    <div class="button-row">
+                        <button id="btn-reset" title="Clear Grid">↺ Clear Grid</button>
+                    </div>
+                </div>
+
+                <!-- Grid Size -->
+                <div class="panel-section">
+                    <h2>Grid Size</h2>
+                    <div class="button-row">
+                        <button id="btn-size-10" class="size-btn active" data-size="10">10 × 10</button>
+                        <button id="btn-size-15" class="size-btn" data-size="15">15 × 15</button>
+                        <button id="btn-size-20" class="size-btn" data-size="20">20 × 20</button>
+                        <button id="btn-size-30" class="size-btn" data-size="30">30 × 30</button>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="panel-section concepts">
+                    <h2>How to build</h2>
+                    <dl>
+                        <dt>Paint</dt>
+                        <dd>Select a tool above and click on an empty square on the grid.</dd>
+                        <dt>Connection</dt>
+                        <dd>The algorithm will instantly generate the necessary connecting transitional tiles.</dd>
+                        <dt>Constraints</dt>
+                        <dd>You cannot place tiles in ways that contradict the rules (e.g., placing water right next to
+                            mountains).</dd>
+                    </dl>
+                </div>
+
+            </aside>
+        </main>
+    </div>
+
+    <!-- We load the shared logic first, but we modify it slightly to not auto-start or we handle logic in interactive.js -->
+    <!-- Actually since wfc.js auto-starts App on DOMContentLoaded, we need to handle that. 
+       We will create interactive.js to include all logic to avoid conflicts. -->
+    <script src="interactive.js"></script>
+</body>
+
+</html>

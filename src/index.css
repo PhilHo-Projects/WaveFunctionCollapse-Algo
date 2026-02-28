@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Palette */
+    --bg-primary: #0f1117;
+    --bg-secondary: #181b24;
+    --bg-card: #1e2230;
+    --bg-card-hover: #252a3a;
+    --border: #2a2f40;
+    --border-light: #353b50;
+
+    --text-primary: #e4e6ed;
+    --text-secondary: #9298ad;
+    --text-muted: #5c6378;
+
+    --accent: #7c8cf5;
+    --accent-hover: #96a3fc;
+    --accent-dim: rgba(124, 140, 245, 0.15);
+
+    --gold: #f5c542;
+    --gold-dim: rgba(245, 197, 66, 0.2);
+
+    --red: #f57070;
+    --red-dim: rgba(245, 112, 112, 0.2);
+
+    --green: #6bcf8e;
+    --green-dim: rgba(107, 207, 142, 0.15);
+
+    /* Sizing */
+    --radius: 8px;
+    --radius-lg: 12px;
+    --panel-width: 320px;
+  }
+
+  body,
+  #root {
+    @apply font-sans antialiased w-full min-h-screen flex flex-col m-0;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-mono;
+  }
+}
+
+@layer utilities {
+  .mono {
+    @apply font-mono;
+  }
+}

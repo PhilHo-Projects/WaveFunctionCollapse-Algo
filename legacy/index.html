@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wave Function Collapse — Interactive Explainer</title>
+  <meta name="description"
+    content="An interactive, educational visualization of the Wave Function Collapse algorithm. Learn about Superposition, Entropy, Collapse, and Propagation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ─── Main Layout ─── -->
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="header-nav">
+        <a href="interactive.html" class="nav-link">Builder Mode →</a>
+      </div>
+      <h1>Wave Function Collapse</h1>
+      <p class="subtitle">Interactive Algorithm Explainer</p>
+    </header>
+
+    <!-- Content: Canvas + Panel -->
+    <main id="main">
+
+      <!-- Canvas Container -->
+      <section id="canvas-wrapper">
+        <canvas id="wfc-canvas"></canvas>
+        <!-- Hover tooltip -->
+        <div id="tooltip" class="tooltip hidden"></div>
+      </section>
+
+      <!-- Control Panel -->
+      <aside id="panel">
+
+        <!-- Legend -->
+        <div class="panel-section">
+          <h2>Tile Legend</h2>
+          <div id="legend" class="legend"></div>
+        </div>
+
+        <!-- Status -->
+        <div class="panel-section">
+          <h2>Status</h2>
+          <div id="status" class="status-box">
+            <span class="status-label">State:</span>
+            <span id="status-text" class="status-value">Ready</span>
+          </div>
+          <div class="status-box">
+            <span class="status-label">Collapsed:</span>
+            <span id="collapsed-count" class="status-value mono">0 / 0</span>
+          </div>
+          <div class="status-box">
+            <span class="status-label">Step:</span>
+            <span id="step-count" class="status-value mono">0</span>
+          </div>
+        </div>
+
+        <!-- Playback Controls -->
+        <div class="panel-section">
+          <h2>Playback</h2>
+          <div class="button-row">
+            <button id="btn-play" title="Play / Pause">▶ Play</button>
+            <button id="btn-step" title="Single Step">⏭ Step</button>
+            <button id="btn-reset" title="Reset Grid">↺ Reset</button>
+          </div>
+        </div>
+
+        <!-- Speed -->
+        <div class="panel-section">
+          <h2>Speed</h2>
+          <div class="slider-row">
+            <label for="speed-slider" class="slider-label">Slow</label>
+            <input type="range" id="speed-slider" min="0" max="100" value="50" />
+            <label class="slider-label">Fast</label>
+          </div>
+          <div class="slider-value mono" id="speed-value">200 ms</div>
+        </div>
+
+        <!-- Grid Size -->
+        <div class="panel-section">
+          <h2>Grid Size</h2>
+          <div class="button-row">
+            <button id="btn-size-10" class="size-btn active" data-size="10">10 × 10</button>
+            <button id="btn-size-15" class="size-btn" data-size="15">15 × 15</button>
+            <button id="btn-size-20" class="size-btn" data-size="20">20 × 20</button>
+          </div>
+        </div>
+
+        <!-- Concepts -->
+        <div class="panel-section concepts">
+          <h2>Concepts</h2>
+          <dl>
+            <dt>Superposition</dt>
+            <dd>A cell that hasn't decided yet — it holds multiple possibilities.</dd>
+            <dt>Entropy</dt>
+            <dd>The number of remaining options. Lower entropy = closer to decision.</dd>
+            <dt>Collapse</dt>
+            <dd>Picking one definitive state for a cell. <span class="flash-gold">Gold flash ●</span></dd>
+            <dt>Propagation</dt>
+            <dd>Updating neighbors to remove invalid options. <span class="flash-red">Red flash ●</span></dd>
+          </dl>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <script src="wfc.js"></script>
+</body>
+
+</html>
