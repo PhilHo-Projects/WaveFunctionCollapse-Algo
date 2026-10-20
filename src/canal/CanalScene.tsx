@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/immutability -- Frame callbacks mutate Three.js resources, never React state. */
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, OrthographicCamera, useGLTF } from "@react-three/drei";
@@ -18,6 +17,9 @@ import { createCatalog } from "./catalog";
 import { CanalWater } from "./CanalWater";
 import { Shore } from "./Shore";
 import { SceneEffects } from "./SceneEffects";
+import { RevealPlayback, revealBirth } from "./reveal";
+import type { RevealPlan, RevealProgress } from "./reveal";
+import { animateMaterial, instanceMotionAttributes } from "./motion";
 
 export interface SceneProps {
   state: TownState;
@@ -38,6 +40,11 @@ export interface SceneProps {
   onStats: (stats: { calls: number; triangles: number; fps: number }) => void;
   view: number;
   reducedMotion: boolean;
+  presentation: { id: number; plan: RevealPlan | null };
+  buildInterval: number;
+  finishPresentation: number;
+  revealing: boolean;
+  onRevealProgress: (id: number, progress: RevealProgress) => void;
 }
 const KIT_URL = `${import.meta.env.BASE_URL}assets/canal-town/canal-kit.glb`;
 
@@ -78,27 +85,32 @@ function Architecture({
   night,
   reducedMotion,
   lens,
+  playback,
 }: {
   state: TownState;
   kit: ReturnType<typeof readKit>;
   night: boolean;
   reducedMotion: boolean;
   lens: boolean;
+  playback: RevealPlayback;
 }) {
   const seed = state.document.intent.seed,
     size = state.document.intent.size;
   const grid = useMemo(() => createTownGrid(seed, size), [seed, size]);
-  const cache = useMemo(() => new TownGeometryCache(kit, grid), [kit, grid]);
+  const cache = useMemo(
+    () => new TownGeometryCache(kit, grid, playback.clock),
+    [kit, grid, playback],
+  );
   const [settled, setSettled] = useState(0);
   const batches = useMemo(() => {
     void settled;
-    // Animation timestamps belong to the imperative geometry cache, not React UI state.
     return cache.update(state.document, {
-      // eslint-disable-next-line react-hooks/purity
-      time: performance.now() / 1000,
+      time: playback.clock.value,
       animate: !reducedMotion && !lens,
+      reveal: playback.plan,
+      instantInitial: !playback.plan,
     });
-  }, [cache, state.document, reducedMotion, lens, settled]);
+  }, [cache, state.document, reducedMotion, lens, settled, playback]);
   useEffect(() => {
     cache.setNight(night);
   }, [cache, night, batches]);
@@ -107,9 +119,6 @@ function Architecture({
     const timer = setTimeout(() => setSettled((v) => v + 1), 350);
     return () => clearTimeout(timer);
   }, [cache, batches]);
-  useFrame(() => {
-    cache.clock.value = performance.now() / 1000;
-  });
   useEffect(() => {
     cache.flush();
   }, [cache, batches]);
@@ -130,19 +139,25 @@ function Architecture({
     </group>
   );
 }
+interface PropPlacement {
+  matrix: THREE.Matrix4;
+  cell: number;
+}
 function Props({
   state,
   kit,
   night,
   reducedMotion,
+  playback,
 }: {
   state: TownState;
   kit: ReturnType<typeof readKit>;
   night: boolean;
   reducedMotion: boolean;
+  playback: RevealPlayback;
 }) {
   const instances = useMemo(() => {
-    const data = new Map<string, THREE.Matrix4[]>(),
+    const data = new Map<string, PropPlacement[]>(),
       {
         grid,
         document: { intent, assignments },
@@ -170,7 +185,7 @@ function Props({
         ),
         new THREE.Vector3(scale, scale, scale),
       );
-      data.set(name, [...(data.get(name) ?? []), matrix]);
+      data.set(name, [...(data.get(name) ?? []), { matrix, cell: id }]);
     };
     grid.cells.forEach((c) => {
       const h = hash(`${intent.seed}:${c.id}:decoration`),
@@ -196,7 +211,10 @@ function Props({
             ),
             new THREE.Vector3(1.25, 1.25, 1.25),
           );
-          data.set("lantern", [...(data.get("lantern") ?? []), matrix]);
+          data.set("lantern", [
+            ...(data.get("lantern") ?? []),
+            { matrix, cell: c.id },
+          ]);
         }
         return;
       }
@@ -224,8 +242,8 @@ function Props({
   }, [state]);
   const reflections = useMemo(
     () =>
-      (instances.get("lantern") ?? []).flatMap((m) => {
-        const p = new THREE.Vector3().setFromMatrixPosition(m);
+      (instances.get("lantern") ?? []).flatMap(({ matrix, cell }) => {
+        const p = new THREE.Vector3().setFromMatrixPosition(matrix);
         const nearest = state.grid.cells
           .filter((c) => state.document.intent.ground[c.id] === "water")
           .map((c) => ({
@@ -234,18 +252,19 @@ function Props({
           }))
           .sort((a, b) => a.d - b.d)[0];
         return nearest && nearest.d < 2.5
-          ? [m.clone().setPosition(nearest.c.center.x, 0, nearest.c.center.z)]
+          ? [
+              {
+                matrix: matrix
+                  .clone()
+                  .setPosition(nearest.c.center.x, 0, nearest.c.center.z),
+                cell,
+              },
+            ]
           : [];
       }),
     [instances, state.grid, state.document.intent],
   );
-  const lights = (instances.get("lantern") ?? [])
-    .slice(0, 8)
-    .map((m) =>
-      new THREE.Vector3()
-        .setFromMatrixPosition(m)
-        .add(new THREE.Vector3(0, 0.4, 0)),
-    );
+  const lights = (instances.get("lantern") ?? []).slice(0, 8);
   return (
     <group>
       {[...instances].flatMap(([name, matrices]) =>
@@ -257,23 +276,23 @@ function Props({
             matrices={matrices}
             night={night}
             name={name}
+            playback={playback}
           />
         )),
       )}
-      {lights.map((p, i) => (
-        <pointLight
+      {lights.map((placement, i) => (
+        <LanternLight
           key={i}
-          position={p}
-          color="#ffc77d"
-          intensity={night ? 4 : 0}
-          distance={4}
-          decay={2}
+          placement={placement}
+          night={night}
+          playback={playback}
         />
       ))}
       {night && (
         <LanternReflections
           matrices={reflections}
           reducedMotion={reducedMotion}
+          playback={playback}
         />
       )}
     </group>
@@ -285,12 +304,14 @@ function PropInstances({
   matrices,
   night,
   name,
+  playback,
 }: {
   geometry: THREE.BufferGeometry;
   material: THREE.Material;
-  matrices: THREE.Matrix4[];
+  matrices: PropPlacement[];
   night: boolean;
   name: string;
+  playback: RevealPlayback;
 }) {
   const ref = useRef<THREE.InstancedMesh>(null);
   const instanceMaterial = useMemo(() => {
@@ -300,39 +321,103 @@ function PropInstances({
       copy.name === "Lantern paper"
     )
       copy.emissiveIntensity = night ? 3 : 0.4;
+    return animateMaterial(copy, playback.clock);
+  }, [material, night, playback]);
+  const animatedGeometry = useMemo(() => {
+    const copy = geometry.clone();
+    instanceMotionAttributes(
+      copy,
+      matrices.map((p) => revealBirth(playback.plan, p.cell, 3)),
+    );
     return copy;
-  }, [material, night]);
+  }, [geometry, matrices, playback]);
+  const depthMaterial = useMemo(
+    () =>
+      animateMaterial(
+        new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking }),
+        playback.clock,
+      ),
+    [playback],
+  );
   useEffect(() => {
     if (!ref.current) return;
-    matrices.forEach((m, i) => ref.current!.setMatrixAt(i, m));
+    matrices.forEach((p, i) => ref.current!.setMatrixAt(i, p.matrix));
     ref.current.instanceMatrix.needsUpdate = true;
     ref.current.computeBoundingSphere();
   }, [matrices, instanceMaterial]);
   useEffect(() => () => instanceMaterial.dispose(), [instanceMaterial]);
+  useEffect(() => () => animatedGeometry.dispose(), [animatedGeometry]);
+  useEffect(() => () => depthMaterial.dispose(), [depthMaterial]);
   return (
     <instancedMesh
       ref={ref}
-      args={[geometry, instanceMaterial, matrices.length]}
+      args={[animatedGeometry, instanceMaterial, matrices.length]}
+      customDepthMaterial={depthMaterial}
       castShadow={name !== "lantern"}
       receiveShadow
       dispose={null}
     />
   );
 }
+function LanternLight({
+  placement,
+  night,
+  playback,
+}: {
+  placement: PropPlacement;
+  night: boolean;
+  playback: RevealPlayback;
+}) {
+  const light = useRef<THREE.PointLight>(null);
+  const position = new THREE.Vector3()
+    .setFromMatrixPosition(placement.matrix)
+    .add(new THREE.Vector3(0, 0.4, 0));
+  const birth = revealBirth(playback.plan, placement.cell, 3);
+  useFrame(() => {
+    if (light.current)
+      light.current.intensity = night
+        ? 4 * THREE.MathUtils.smoothstep(playback.clock.value - birth, 0, 0.4)
+        : 0;
+  });
+  return (
+    <pointLight
+      ref={light}
+      position={position}
+      color="#ffc77d"
+      intensity={0}
+      distance={4}
+      decay={2}
+    />
+  );
+}
 function LanternReflections({
   matrices,
   reducedMotion,
+  playback,
 }: {
-  matrices: THREE.Matrix4[];
+  matrices: PropPlacement[];
   reducedMotion: boolean;
+  playback: RevealPlayback;
 }) {
   const ref = useRef<THREE.InstancedMesh>(null),
     material = useRef<THREE.ShaderMaterial>(null);
-  const uniforms = useMemo(() => ({ time: { value: 0 } }), []);
+  const uniforms = useMemo(
+    () => ({ time: { value: 0 }, townTime: playback.clock }),
+    [playback],
+  );
+  const geometry = useMemo(() => {
+    const plane = new THREE.PlaneGeometry(1, 1);
+    instanceMotionAttributes(
+      plane,
+      matrices.map((p) => revealBirth(playback.plan, p.cell, 3)),
+    );
+    return plane;
+  }, [matrices, playback]);
+  useEffect(() => () => geometry.dispose(), [geometry]);
   useEffect(() => {
     if (!ref.current) return;
     matrices.forEach((source, i) => {
-      const p = new THREE.Vector3().setFromMatrixPosition(source);
+      const p = new THREE.Vector3().setFromMatrixPosition(source.matrix);
       p.y = -0.267;
       const m = new THREE.Matrix4().compose(
         p,
@@ -354,16 +439,20 @@ function LanternReflections({
         : clock.getElapsedTime();
   });
   return (
-    <instancedMesh ref={ref} args={[undefined, undefined, matrices.length]}>
-      <planeGeometry args={[1, 1]} />
+    <instancedMesh
+      ref={ref}
+      geometry={geometry}
+      args={[geometry, undefined, matrices.length]}
+    >
       <shaderMaterial
+        key={geometry.uuid}
         ref={material}
         transparent
         depthWrite={false}
         blending={THREE.AdditiveBlending}
         uniforms={uniforms}
-        vertexShader={`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.);}`}
-        fragmentShader={`varying vec2 vUv;uniform float time;void main(){vec2 p=(vUv-.5)*2.;float glow=exp(-dot(p*vec2(2.,1.),p*vec2(2.,1.))*3.);float waves=.65+.35*sin(p.y*22.+time*1.3+sin(p.x*5.));gl_FragColor=vec4(1.,.63,.3,glow*waves*.10);}`}
+        vertexShader={`varying vec2 vUv;varying float vReveal;attribute float townBirth;uniform float townTime;void main(){vUv=uv;vReveal=smoothstep(0.,.4,townTime-townBirth);gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.);}`}
+        fragmentShader={`varying vec2 vUv;varying float vReveal;uniform float time;void main(){vec2 p=(vUv-.5)*2.;float glow=exp(-dot(p*vec2(2.,1.),p*vec2(2.,1.))*3.);float waves=.65+.35*sin(p.y*22.+time*1.3+sin(p.x*5.));gl_FragColor=vec4(1.,.63,.3,glow*waves*.10*vReveal);}`}
       />
     </instancedMesh>
   );
@@ -595,6 +684,26 @@ function ConstructionPulse({
 function Scene(props: SceneProps) {
   const gltf = useGLTF(KIT_URL),
     kit = useMemo(() => readKit(gltf.scene), [gltf.scene]);
+  const playback = useMemo(
+    () => new RevealPlayback(props.presentation.plan),
+    [props.presentation],
+  );
+  const lastProgress = useRef("");
+  useFrame(() => {
+    if (
+      props.finishPresentation === props.presentation.id ||
+      props.lens ||
+      props.reducedMotion
+    )
+      playback.finish();
+    playback.advance(performance.now() / 1000, props.buildInterval);
+    const progress = playback.progress;
+    const signature = `${props.presentation.id}:${progress.shown}:${progress.active}`;
+    if (signature !== lastProgress.current) {
+      lastProgress.current = signature;
+      props.onRevealProgress(props.presentation.id, progress);
+    }
+  }, -90);
   useEffect(
     () => () => {
       const materials = new Set<THREE.Material>();
@@ -640,6 +749,7 @@ function Scene(props: SceneProps) {
         kit={kit}
         night={props.night}
         reducedMotion={props.reducedMotion}
+        playback={playback}
       />
       <Architecture
         state={props.state}
@@ -647,14 +757,16 @@ function Scene(props: SceneProps) {
         night={props.night}
         reducedMotion={props.reducedMotion}
         lens={props.lens}
+        playback={playback}
       />
       <Props
         state={props.state}
         kit={kit}
         night={props.night}
         reducedMotion={props.reducedMotion}
+        playback={playback}
       />
-      <Picking {...props} />
+      {!props.revealing && <Picking {...props} />}
       {props.lens && props.ghostMesh && props.selected !== null && (
         <Ghost
           mesh={props.ghostMesh}
@@ -713,7 +825,7 @@ function Scene(props: SceneProps) {
         }}
       />
       <Stats report={props.onStats} />
-      <SceneEffects night={props.night} />
+      <SceneEffects night={props.night} clock={playback.clock} />
     </>
   );
 }

@@ -46,6 +46,8 @@ import { solve } from "./solver";
 import { replay } from "./replay";
 import { PALETTE, paintBuilding } from "./appearance";
 import { TownSound } from "./sound";
+import { BUILD_SPEEDS, createRevealPlan } from "./reveal";
+import type { RevealPlan, RevealProgress } from "./reveal";
 import type {
   ModuleDefinition,
   Preset,
@@ -59,6 +61,7 @@ import "./canal.css";
 
 const CanalScene = lazy(() => import("./CanalScene"));
 const STORAGE = "canal-town:v1";
+const SPEED_STORAGE = "canal-town:build-interval";
 const presets: Record<Preset, { name: string; caption: string }> = {
   village: {
     name: "Canal village",
@@ -140,6 +143,68 @@ export default function CanalTown() {
   const [reducedMotion] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+  const [buildInterval, setBuildInterval] = useState(() => {
+    try {
+      const saved = localStorage.getItem(SPEED_STORAGE);
+      const value = saved === null ? 100 : Number(saved);
+      return BUILD_SPEEDS.some((speed) => speed.value === value) ? value : 100;
+    } catch {
+      return 100;
+    }
+  });
+  const intervalRef = useRef(buildInterval),
+    pendingReveal = useRef(false),
+    presentationId = useRef(0);
+  const [presentation, setPresentation] = useState<{
+    id: number;
+    plan: RevealPlan | null;
+  }>({ id: 0, plan: null });
+  const [revealProgress, setRevealProgress] = useState<RevealProgress>({
+    active: false,
+    shown: 0,
+    total: 0,
+  });
+  const [finishPresentation, setFinishPresentation] = useState(-1);
+  const finishTown = useCallback(() => {
+    setFinishPresentation(presentationId.current);
+    setRevealProgress((old) => ({ ...old, active: false }));
+  }, []);
+  const presentTown = useCallback(
+    (state: TownState, sequence: boolean) => {
+      const plan =
+        sequence && intervalRef.current > 0 && !reducedMotion
+          ? createRevealPlan(state.grid, state.document.intent)
+          : null;
+      const id = ++presentationId.current;
+      setPresentation({ id, plan });
+      setRevealProgress({
+        active: !!plan,
+        shown: 0,
+        total: plan?.steps.length ?? 0,
+      });
+    },
+    [reducedMotion],
+  );
+  const reportReveal = useCallback((id: number, progress: RevealProgress) => {
+    if (id !== presentationId.current) return;
+    setRevealProgress((old) =>
+      old.active === progress.active &&
+      old.shown === progress.shown &&
+      old.total === progress.total
+        ? old
+        : progress,
+    );
+  }, []);
+  const changeBuildSpeed = (value: number) => {
+    intervalRef.current = value;
+    setBuildInterval(value);
+    try {
+      localStorage.setItem(SPEED_STORAGE, String(value));
+    } catch {
+      /* Preference is optional. */
+    }
+    if (value === 0) finishTown();
+  };
   const worker = useRef<Worker | null>(null),
     revision = useRef(0),
     townRef = useRef<TownState | null>(null),
@@ -148,9 +213,15 @@ export default function CanalTown() {
     pendingEdit = useRef(false),
     fileInput = useRef<HTMLInputElement>(null);
   const send = useCallback(
-    (request: Omit<TownRequest, "revision">, edit = false) => {
+    (
+      request: Omit<TownRequest, "revision">,
+      edit = false,
+      sequence = false,
+    ) => {
       if (!worker.current) return;
       pendingEdit.current = edit;
+      pendingReveal.current = sequence;
+      if (!edit) finishTown();
       setBusy(true);
       setError(null);
       setStudy(false);
@@ -159,7 +230,7 @@ export default function CanalTown() {
       setCursor(0);
       worker.current.postMessage({ ...request, revision: ++revision.current });
     },
-    [],
+    [finishTown],
   );
   useEffect(() => {
     let w: Worker;
@@ -201,6 +272,8 @@ export default function CanalTown() {
         setHistoryVersion((v) => v + 1);
         townRef.current = data.state;
         setTown(data.state);
+        if (!pendingEdit.current)
+          presentTown(data.state, pendingReveal.current);
         setEvents(visibleEvents(data.state.result.events));
         setSelected(null);
         setBridgeStart(null);
@@ -247,7 +320,7 @@ export default function CanalTown() {
       w.terminate();
       worker.current = null;
     };
-  }, [send]);
+  }, [send, presentTown]);
   useEffect(() => () => sound.current.dispose(), []);
   useEffect(() => {
     if (!town) return;
@@ -288,7 +361,7 @@ export default function CanalTown() {
   const onPick = useCallback(
     (cell: number, remove: boolean) => {
       const current = townRef.current;
-      if (!current || busy) return;
+      if (!current || busy || revealProgress.active) return;
       if (lens) {
         setSelected(cell);
         setPlaying(false);
@@ -366,7 +439,7 @@ export default function CanalTown() {
         setError(e instanceof Error ? e.message : "Could not edit this cell.");
       }
     },
-    [busy, lens, tool, bridgeStart, paint, send],
+    [busy, lens, tool, bridgeStart, paint, send, revealProgress.active],
   );
   // Canvas reconciles in a separate React root. Gestures must see the current
   // toolbar selection even before that root has rendered its next frame.
@@ -379,7 +452,7 @@ export default function CanalTown() {
   }, []);
   const undo = useCallback(
     (redo = false) => {
-      if (busy) return;
+      if (busy || revealProgress.active) return;
       const current = townRef.current;
       if (!current) return;
       const source = redo ? future.current : history.current,
@@ -407,7 +480,7 @@ export default function CanalTown() {
       setBridgeStart(null);
       setHistoryVersion((v) => v + 1);
     },
-    [busy],
+    [busy, revealProgress.active],
   );
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
@@ -432,8 +505,10 @@ export default function CanalTown() {
       : seed.trim() || "komorebi";
     setSeed(value);
     setGeneratorOpen(false);
+    setLens(false);
+    setHovered(null);
     setView((v) => v + 1);
-    send({ seed: value, size, preset });
+    send({ seed: value, size, preset }, false, true);
   };
   const exportTown = () => {
     if (!town) return;
@@ -470,6 +545,7 @@ export default function CanalTown() {
       };
       townRef.current = state;
       setTown(state);
+      presentTown(state, false);
       setSeed(doc.intent.seed);
       setSize(doc.intent.size);
       setPreset(doc.intent.preset);
@@ -681,6 +757,11 @@ export default function CanalTown() {
                 onStats={report}
                 view={view}
                 reducedMotion={reducedMotion}
+                presentation={presentation}
+                buildInterval={buildInterval}
+                finishPresentation={finishPresentation}
+                revealing={revealProgress.active}
+                onRevealProgress={reportReveal}
               />
             </Suspense>
           </SceneBoundary>
@@ -778,6 +859,25 @@ export default function CanalTown() {
                 spellCheck={false}
               />
             </label>
+            <label className="field-label">
+              Build speed
+              <select
+                aria-label="Build speed"
+                value={buildInterval}
+                onChange={(e) => changeBuildSpeed(Number(e.target.value))}
+              >
+                {BUILD_SPEEDS.map((speed) => (
+                  <option key={speed.value} value={speed.value}>
+                    {speed.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p className="build-speed-note">
+              {reducedMotion
+                ? "Reduced motion is on. Your town will appear instantly."
+                : "Watch each plot grow into place, or choose Instant."}
+            </p>
             <div className="generation-actions">
               <button
                 className="primary-action"
@@ -999,7 +1099,45 @@ export default function CanalTown() {
           </div>
         )}
         <div className="construction-area">
-          {!lens && tool === "paint" && (
+          {revealProgress.active && !lens && (
+            <section
+              className="build-reveal"
+              aria-label="Town construction playback"
+            >
+              <div className="build-reveal-heading">
+                <span>
+                  <Sparkles size={14} />
+                  Growing your town
+                </span>
+                <span>
+                  {revealProgress.shown} / {revealProgress.total} plots
+                </span>
+              </div>
+              <progress
+                aria-label="Town construction progress"
+                value={revealProgress.shown}
+                max={revealProgress.total}
+              />
+              <div className="build-reveal-controls">
+                <select
+                  aria-label="Playback speed"
+                  value={buildInterval}
+                  onChange={(e) => changeBuildSpeed(Number(e.target.value))}
+                >
+                  {BUILD_SPEEDS.map((speed) => (
+                    <option key={speed.value} value={speed.value}>
+                      {speed.label}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={finishTown}>
+                  Finish now
+                  <StepForward size={14} />
+                </button>
+              </div>
+            </section>
+          )}
+          {!lens && !revealProgress.active && tool === "paint" && (
             <div
               className="paint-palette"
               role="toolbar"
@@ -1024,7 +1162,12 @@ export default function CanalTown() {
             </div>
           )}
           <div className="interaction-hint">
-            {lens ? (
+            {revealProgress.active && !lens ? (
+              <>
+                <MousePointer2 size={13} />
+                Drag to orbit while the town takes shape.
+              </>
+            ) : lens ? (
               <>
                 <Eye size={13} />
                 Inspect a place, or step through a decision.
@@ -1118,14 +1261,18 @@ export default function CanalTown() {
             <div className="history-group" data-history={historyVersion}>
               <button
                 aria-label="Undo"
-                disabled={!history.current.length || busy}
+                disabled={
+                  !history.current.length || busy || revealProgress.active
+                }
                 onClick={() => undo()}
               >
                 <Undo2 size={18} />
               </button>
               <button
                 aria-label="Redo"
-                disabled={!future.current.length || busy}
+                disabled={
+                  !future.current.length || busy || revealProgress.active
+                }
                 onClick={() => undo(true)}
               >
                 <Redo2 size={18} />

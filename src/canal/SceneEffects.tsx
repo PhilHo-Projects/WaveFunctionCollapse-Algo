@@ -24,7 +24,13 @@ class TownAOPass extends GTAOPass {
   }
 }
 
-export function SceneEffects({ night }: { night: boolean }) {
+export function SceneEffects({
+  night,
+  clock,
+}: {
+  night: boolean;
+  clock: { value: number };
+}) {
   const { gl, scene, camera, size } = useThree();
   const effects = useMemo(() => {
     const target = new WebGLRenderTarget(512, 512, {
@@ -34,7 +40,6 @@ export function SceneEffects({ night }: { night: boolean }) {
     const composer = new EffectComposer(gl, target);
     const render = new RenderPass(scene, camera);
     const ao = new TownAOPass(scene, camera, 512, 512);
-    const clock = { value: 0 };
     animateMaterial(ao.normalMaterial, clock);
     ao.blendIntensity = 0.48;
     ao.updateGtaoMaterial({
@@ -50,7 +55,7 @@ export function SceneEffects({ night }: { night: boolean }) {
     composer.addPass(bloom);
     composer.addPass(output);
     return { composer, render, ao, bloom, output, clock };
-  }, [gl, scene, camera]);
+  }, [gl, scene, camera, clock]);
   useEffect(() => {
     effects.composer.setSize(size.width, size.height);
     effects.ao.setSize(
@@ -79,7 +84,6 @@ export function SceneEffects({ night }: { night: boolean }) {
     gl.info.reset();
   }, -100);
   useFrame((_, delta) => {
-    effects.clock.value = performance.now() / 1000;
     effects.bloom.strength = night ? 0.22 : 0.035;
     effects.composer.render(delta);
   }, 1);

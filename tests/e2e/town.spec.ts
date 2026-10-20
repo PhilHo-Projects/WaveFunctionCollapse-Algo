@@ -3,9 +3,12 @@ import { expect, test, type Page } from "@playwright/test";
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem("canal-town:v1")!));
 async function ready(page: Page) {
-  await expect(page.getByTestId("town-counts")).toContainText("460 cells", {
-    timeout: 30_000,
-  });
+  await expect(page.getByTestId("town-counts")).toContainText(
+    /[1-9]\d* cells/,
+    {
+      timeout: 30_000,
+    },
+  );
   await expect(
     page.getByText("Saved on this device", { exact: true }),
   ).toBeVisible();
@@ -14,13 +17,15 @@ async function ready(page: Page) {
     const f =
       await import("/wfc/node_modules/.vite/deps/@react-three_fiber.js");
     return (
-      f._roots.get(document.querySelector("canvas"))?.store.getState().internal
-        .interaction.length > 0
+      f._roots.get(document.querySelector("canvas"))?.store.getState()
+        .internal.interaction.length > 0
     );
   });
   await page.evaluate(
     () =>
-      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+      new Promise((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(r)),
+      ),
   );
   // The camera and controls mount after the GLB suspense boundary. Wait for
   // their initial pose before projecting test gestures into screen space.
@@ -84,7 +89,10 @@ async function projectCell(page: Page, requested?: number) {
           const x = box.x + ((v.x + 1) / 2) * box.width,
             y = box.y + ((1 - v.y) / 2) * box.height;
           const ray = new state.raycaster.constructor();
-          ray.setFromCamera(state.pointer.clone().set(v.x, v.y), state.camera);
+          ray.setFromCamera(
+            state.pointer.clone().set(v.x, v.y),
+            state.camera,
+          );
           const hit = ray.intersectObjects(
             state.internal.interaction,
             false,
@@ -130,7 +138,9 @@ test("builds, removes, restores, and never edits while orbiting", async ({
   await expect
     .poll(async () => (await saved(page)).intent.heights[point.cell])
     .toBe(built.intent.heights[point.cell]);
-  await page.getByRole("button", { name: "Reset camera", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Reset camera", exact: true })
+    .click();
   await ready(page);
   await page.getByRole("button", { name: "Remove", exact: true }).click();
   const removing = await projectCell(page, point.cell);
@@ -181,7 +191,9 @@ test("paints a whole building, persists its colour, and restores it with undo", 
   ).toHaveAttribute("aria-pressed", "false");
 });
 
-test("creates and removes a complete bridge transaction", async ({ page }) => {
+test("creates and removes a complete bridge transaction", async ({
+  page,
+}) => {
   await page.goto("./");
   await ready(page);
   // Import a valid waterfront fixture with clear landings. Architecture can
@@ -200,7 +212,8 @@ test("creates and removes a complete bridge transaction", async ({ page }) => {
         createCatalog(),
       ),
     );
-    if (result.status !== "success") throw new Error("Invalid bridge fixture");
+    if (result.status !== "success")
+      throw new Error("Invalid bridge fixture");
     return { ...doc, assignments: result.assignments };
   });
   await page.locator("input[type=file]").setInputFiles({
@@ -238,7 +251,9 @@ test("creates and removes a complete bridge transaction", async ({ page }) => {
     b = await projectCell(page, bridge.anchors[1]);
   await page.mouse.click(a.x, a.y);
   await page.mouse.move(b.x, b.y);
-  await page.screenshot({ path: test.info().outputPath("bridge-preview.png") });
+  await page.screenshot({
+    path: test.info().outputPath("bridge-preview.png"),
+  });
   await page.mouse.click(b.x, b.y);
   await expect
     .poll(async () => (await saved(page)).intent.bridges.length)
@@ -267,7 +282,9 @@ test("round-trips JSON and rejects an incompatible save without losing the town"
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify({ ...doc, kitVersion: "missing" })),
   });
-  await expect(page.getByRole("alert")).toContainText("different kit version");
+  await expect(page.getByRole("alert")).toContainText(
+    "different kit version",
+  );
   expect((await saved(page)).assignments).toEqual(doc.assignments);
 });
 test("rolls back a contradictory edit and identifies its conflicting cell", async ({
@@ -302,6 +319,37 @@ test("rolls back a contradictory edit and identifies its conflicting cell", asyn
 test("cancels a generation without committing a stale response", async ({
   page,
 }) => {
+  await page.addInitScript(() => {
+    const NativeWorker = window.Worker;
+    window.Worker = class extends NativeWorker {
+      constructor(url: string | URL, options?: WorkerOptions) {
+        super(url, options);
+        let released = false;
+        this.addEventListener("message", (event) => {
+          if (
+            !released &&
+            event.data.type === "complete" &&
+            event.data.state.document.intent.seed === "cancelled-river"
+          ) {
+            // Hold the real result so the test does not race a fast solve;
+            // deliver it after Cancel to exercise the stale-response guard.
+            event.stopImmediatePropagation();
+            document.documentElement.dataset.heldTown = "yes";
+            window.addEventListener(
+              "release-held-worker",
+              () => {
+                released = true;
+                this.dispatchEvent(
+                  new MessageEvent("message", { data: event.data }),
+                );
+              },
+              { once: true },
+            );
+          }
+        });
+      }
+    };
+  });
   await page.goto("./");
   await ready(page);
   const doc = await saved(page);
@@ -311,7 +359,13 @@ test("cancels a generation without committing a stale response", async ({
   await page
     .getByRole("button", { name: "Generate town", exact: true })
     .click();
+  await page.waitForFunction(
+    () => document.documentElement.dataset.heldTown === "yes",
+  );
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
+  await page.evaluate(() =>
+    window.dispatchEvent(new Event("release-held-worker")),
+  );
   // Give the old worker several animation frames to prove it cannot commit after cancellation.
   await page.evaluate(
     () =>
@@ -326,6 +380,195 @@ test("cancels a generation without committing a stale response", async ({
   );
   expect((await saved(page)).intent.seed).toBe(doc.intent.seed);
 });
+async function generateTown(page: Page, interval?: string, seed?: string) {
+  await page.getByRole("button", { name: "Make a town" }).click();
+  if (interval !== undefined)
+    await page
+      .getByLabel("Build speed", { exact: true })
+      .selectOption(interval);
+  if (seed !== undefined)
+    await page.getByLabel("Seed", { exact: true }).fill(seed);
+  await page
+    .getByRole("button", { name: "Generate town", exact: true })
+    .click();
+}
+
+// Replacing uniforms on regeneration must also update Three's GPU clock.
+async function revealResources(page: Page) {
+  return page.evaluate(async () => {
+    const { _roots } =
+      await import("/wfc/node_modules/.vite/deps/@react-three_fiber.js");
+    const state = _roots
+      .get(document.querySelector("canvas"))
+      .store.getState();
+    const gl = state.gl.getContext();
+    const geometry: string[] = [],
+      clocks: { js: number; gpu: number }[] = [];
+    state.scene.traverse(
+      (object: {
+        geometry?: { uuid: string; attributes: Record<string, unknown> };
+        material?: { uniforms?: { townTime?: { value: number } } };
+      }) => {
+        if (object.geometry?.attributes.townBirth)
+          geometry.push(object.geometry.uuid);
+        if (object.material?.uniforms?.townTime) {
+          const program = state.gl.properties.get(
+            object.material,
+          ).currentProgram;
+          if (program)
+            clocks.push({
+              js: object.material.uniforms.townTime.value,
+              gpu: gl.getUniform(
+                program.program,
+                gl.getUniformLocation(program.program, "townTime"),
+              ),
+            });
+        }
+      },
+    );
+    return { geometry: geometry.sort(), clocks };
+  });
+}
+
+test("reveals the same town sequentially, retimes existing geometry, and finishes immediately", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("./");
+  await ready(page);
+  const before = await saved(page);
+  await page
+    .getByRole("button", { name: "Switch to lantern evening" })
+    .click();
+  await generateTown(page);
+  const panel = page.getByRole("region", {
+    name: "Town construction playback",
+  });
+  const progress = page.getByRole("progressbar", {
+    name: "Town construction progress",
+  });
+  const shown = async () => Number(await progress.getAttribute("value"));
+  await expect(panel).toBeVisible();
+  await expect(page.getByLabel("Playback speed")).toHaveValue("100");
+  await expect.poll(shown).toBeGreaterThan(3);
+  expect(await shown()).toBeLessThan(
+    Number(await progress.getAttribute("max")),
+  );
+  expect(await saved(page)).toEqual(before);
+  const initial = await revealResources(page),
+    initialShown = await shown();
+  expect(initial.clocks.length).toBe(2);
+  for (const clock of initial.clocks)
+    expect(clock.gpu).toBeCloseTo(clock.js, 3);
+  await page.getByLabel("Playback speed").selectOption("250");
+  await expect.poll(shown).toBeGreaterThan(initialShown + 2);
+  const slowShown = await shown();
+  await page.getByLabel("Playback speed").selectOption("30");
+  await expect.poll(shown).toBeGreaterThan(slowShown + 10);
+  expect((await revealResources(page)).geometry).toEqual(initial.geometry);
+  await page.mouse.move(1050, 550);
+  await page.mouse.down();
+  await page.mouse.move(1150, 580, { steps: 10 });
+  await page.mouse.up();
+  expect(await saved(page)).toEqual(before);
+  await page.screenshot({
+    path: test.info().outputPath("sequential-build.png"),
+  });
+  await page.getByRole("button", { name: "Finish now", exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  await ready(page);
+  expect(await saved(page)).toEqual(before);
+
+  // Identical solver assignments still get a fresh presentation identity.
+  await generateTown(page, "250");
+  await expect(panel).toBeVisible();
+  await expect.poll(shown).toBeGreaterThan(2);
+  expect(await shown()).toBeLessThan(15);
+  const replay = await revealResources(page);
+  expect(replay.geometry).not.toEqual(initial.geometry);
+  for (const clock of replay.clocks)
+    expect(clock.gpu).toBeCloseTo(clock.js, 3);
+  await page.getByLabel("Playback speed").selectOption("0");
+  await expect(panel).toHaveCount(0);
+  await ready(page);
+  expect(await saved(page)).toEqual(before);
+  await page.reload();
+  await ready(page);
+  await expect(panel).toHaveCount(0);
+  await page.getByRole("button", { name: "Make a town" }).click();
+  await expect(page.getByLabel("Build speed", { exact: true })).toHaveValue(
+    "0",
+  );
+  expect(errors).toEqual([]);
+});
+
+test("replaces a running reveal, completes naturally, and persists a full instant town", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await ready(page);
+  await generateTown(page, "250");
+  const panel = page.getByRole("region", {
+    name: "Town construction playback",
+  });
+  await expect(panel).toBeVisible();
+  await generateTown(page, "30", "replacement-river");
+  await expect
+    .poll(async () => (await saved(page)).intent.seed)
+    .toBe("replacement-river");
+  await expect(panel).toBeVisible();
+  const generated = await saved(page);
+  await expect(panel).toHaveCount(0, { timeout: 25_000 });
+  await ready(page);
+  expect(await saved(page)).toEqual(generated);
+  const point = await projectCell(page);
+  await page.mouse.click(point.x, point.y);
+  await expect
+    .poll(async () => (await saved(page)).edit)
+    .toBe(generated.edit + 1);
+  await generateTown(page, "0", "instant-river");
+  await expect
+    .poll(async () => (await saved(page)).intent.seed)
+    .toBe("instant-river");
+  await ready(page);
+  await expect(panel).toHaveCount(0);
+  const instant = await saved(page);
+  await page.reload();
+  await ready(page);
+  expect(await saved(page)).toEqual(instant);
+});
+
+test("keeps mobile playback controls reachable and skips reveals for reduced motion", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("./");
+  await ready(page);
+  await generateTown(page, "250");
+  const panel = page.getByRole("region", {
+    name: "Town construction playback",
+  });
+  await expect(panel).toBeVisible();
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBe(390);
+  await page.screenshot({
+    path: test.info().outputPath("mobile-reveal.png"),
+  });
+  await page.getByRole("button", { name: "Finish now", exact: true }).click();
+  await expect(panel).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.reload();
+  await ready(page);
+  await generateTown(page, "100", "quiet-river");
+  await expect
+    .poll(async () => (await saved(page)).intent.seed)
+    .toBe("quiet-river");
+  await ready(page);
+  await expect(panel).toHaveCount(0);
+});
+
 test("shows a useful failure when the Blender asset is unavailable", async ({
   page,
 }) => {
@@ -338,7 +581,9 @@ test("shows a useful failure when the Blender asset is unavailable", async ({
     page.getByRole("link", { name: "Explore the 2D demos" }),
   ).toBeVisible();
 });
-test("offers a learning route when WebGL is unavailable", async ({ page }) => {
+test("offers a learning route when WebGL is unavailable", async ({
+  page,
+}) => {
   await page.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (
@@ -381,7 +626,9 @@ test("records frame and edit timings on the current desktop", async ({
   const sample = await page.evaluate(async () => {
     const { _roots } =
       await import("/wfc/node_modules/.vite/deps/@react-three_fiber.js");
-    const state = _roots.get(document.querySelector("canvas")).store.getState();
+    const state = _roots
+      .get(document.querySelector("canvas"))
+      .store.getState();
     const frames: number[] = [];
     let last = performance.now();
     await new Promise<void>((resolve) => {
@@ -454,10 +701,14 @@ test("captures daylight, evening and real backtracking in the lens", async ({
     );
   };
   const daylight = await pixel();
-  await page.getByRole("button", { name: "Switch to lantern evening" }).click();
+  await page
+    .getByRole("button", { name: "Switch to lantern evening" })
+    .click();
   await page.evaluate(
     () =>
-      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+      new Promise((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(r)),
+      ),
   );
   await page.screenshot({ path: info.outputPath("evening.png") });
   expect(await pixel()).toBeLessThan(daylight * 0.7);
@@ -561,6 +812,8 @@ test.describe("touch controls", () => {
       .click();
     await page.screenshot({ path: test.info().outputPath("mobile.png") });
     await page.goto("learn");
-    await expect(page.getByRole("heading", { name: "Playback" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Playback" }),
+    ).toBeVisible();
   });
 });

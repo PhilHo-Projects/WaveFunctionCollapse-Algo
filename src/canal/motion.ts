@@ -26,7 +26,7 @@ attribute float townExit;
 float townScale() {
   float age = townTime - townBirth;
   if (townExit > .5) return 1. - smoothstep(0., .28, age);
-  if (age <= 0.) return .001;
+  if (age <= 0.) return 0.;
   if (age >= .72) return 1.;
   return max(.001, 1. - exp(-9. * age) * (cos(12. * age) + .25 * sin(12. * age)));
 }
@@ -36,12 +36,12 @@ float townScale() {
       `
       #include <begin_vertex>
       float growth = townScale();
-      float width = townExit > .5 ? growth : mix(.78, 1., min(growth, 1.)) - max(growth-1.,0.)*.35;
+      float width = growth <= 0. ? 0. : townExit > .5 ? growth : mix(.78, 1., min(growth, 1.)) - max(growth-1.,0.)*.35;
       transformed = townPivot + (transformed-townPivot)*vec3(width,growth,width);
     `,
     );
   };
-  material.customProgramCacheKey = () => "canal-construction-v1";
+  material.customProgramCacheKey = () => "canal-construction-v2";
   return material;
 }
 
@@ -62,5 +62,24 @@ export function motionAttributes(
   geometry.setAttribute(
     "townExit",
     new THREE.BufferAttribute(new Float32Array(count).fill(exit ? 1 : 0), 1),
+  );
+}
+
+/** Props share geometry per family; reveal dates advance once per instance. */
+export function instanceMotionAttributes(
+  geometry: THREE.BufferGeometry,
+  births: number[],
+) {
+  geometry.setAttribute(
+    "townBirth",
+    new THREE.InstancedBufferAttribute(new Float32Array(births), 1),
+  );
+  geometry.setAttribute(
+    "townPivot",
+    new THREE.InstancedBufferAttribute(new Float32Array(births.length * 3), 3),
+  );
+  geometry.setAttribute(
+    "townExit",
+    new THREE.InstancedBufferAttribute(new Float32Array(births.length), 1),
   );
 }

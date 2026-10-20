@@ -6,6 +6,8 @@ import type { TownDocument, TownGrid } from "./types";
 import { warpPoint } from "./geometry";
 import { buildingAppearance, PALETTE } from "./appearance";
 import { animateMaterial, motionAttributes, REMOVE_SECONDS } from "./motion";
+import { revealBirth } from "./reveal";
+import type { RevealPlan } from "./reveal";
 
 export interface RenderBatch {
   key: string;
@@ -104,21 +106,32 @@ export class TownGeometryCache {
   private retired: THREE.BufferGeometry[] = [];
   private outgoing: { until: number; key: string; parts: KitPart[] }[] = [];
   private motionMaterials = new Map<string, THREE.Material>();
-  readonly clock = { value: 0 };
-  readonly depthMaterial = animateMaterial(
-    new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking }),
-    this.clock,
-  );
+  readonly clock: { value: number };
+  readonly depthMaterial: THREE.MeshDepthMaterial;
   private generation = 0;
   private kit: Map<string, KitPart[]>;
   private grid: TownGrid;
-  constructor(kit: Map<string, KitPart[]>, grid: TownGrid) {
+  constructor(
+    kit: Map<string, KitPart[]>,
+    grid: TownGrid,
+    clock = { value: 0 },
+  ) {
     this.kit = kit;
     this.grid = grid;
+    this.clock = clock;
+    this.depthMaterial = animateMaterial(
+      new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking }),
+      clock,
+    );
   }
   update(
     doc: TownDocument,
-    options?: { time: number; animate: boolean },
+    options?: {
+      time: number;
+      animate: boolean;
+      reveal?: RevealPlan | null;
+      instantInitial?: boolean;
+    },
   ): RenderBatch[] {
     const time = options?.time ?? 0;
     const animate = options?.animate ?? false;
@@ -211,7 +224,13 @@ export class TownGeometryCache {
                 Math.max(0, layer - 1) * FLOOR_HEIGHT,
                 center.z,
               ),
-              animate ? time + delay : -100,
+              first && options?.reveal
+                ? revealBirth(options.reveal, cellId, layer)
+                : first && options?.instantInitial
+                  ? -100
+                  : animate
+                    ? time + delay
+                    : -100,
             );
             geometry.computeBoundingSphere();
             let material = this.motionMaterials.get(part.material.uuid);

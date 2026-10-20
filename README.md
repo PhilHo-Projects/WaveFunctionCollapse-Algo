@@ -19,6 +19,7 @@ Open **http://localhost:5173/wfc/**. Direct links and assets use the same `/wfc/
 - Drag to orbit; scroll to zoom. Gestures moving more than five pixels never construct anything. Touch uses the selected tool.
 - Undo/redo apply whole transactions. Shortcuts: `Ctrl/Cmd+Z`, `Shift+Ctrl/Cmd+Z`, `I` for the lens, and `Escape`.
 - Choose Canal village, Market bend, or Bridge quarter under **Make a town**. Seeds reproduce topology, planning, and architecture independently of decoration.
+- Generated towns build outward one plot every **0.10 s** by default, with floors, props, banks and reflections following. Choose **Fast (0.03 s)**, **Steady (0.10 s)**, **Slow (0.25 s)** or **Instant** before generation or during playback. **Finish now** skips to the finished town; the speed preference is remembered. Orbit while it grows, then resume editing. Existing saves and reduced-motion mode open instantly.
 - The town saves locally. **Export/Open** round-trip versioned JSON, including exact resolved assignments. No account or server is required.
 - **Learn WFC** retains the six earlier experiments, including the existing topology builder.
 
@@ -36,6 +37,7 @@ Open **http://localhost:5173/wfc/**. Direct links and assets use the same `/wfc/
 | `src/canal/appearance.ts`, `dressing.ts`, `Shore.tsx` | Coherent footprint colours, exposed banks, paving/coping and landing-aware railings |
 | `src/canal/motion.ts`, `CanalWater.tsx`, `SceneEffects.tsx` | Batched construction animation, planar reflections, ambient occlusion, bloom and antialiasing |
 | `src/canal/replay.ts` | Domain reconstruction from actual events, including restored backtracking domains |
+| `src/canal/reveal.ts` | Connected plot reveal order and shared virtual clock; retiming never reruns the solver or rebuilds geometry |
 
 The planner fixes canals, quays, circulation, plots and crossings; WFC chooses room treatments and compatible roof profiles across seven vertical layers. Completed assignments are checked against every graph edge. Failed edits retain the previous valid document. Planner exhaustion, contradiction, operation exhaustion and cancellation are distinct outcomes.
 
