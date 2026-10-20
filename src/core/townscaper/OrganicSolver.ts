@@ -10,6 +10,12 @@ export class OrganicSolver {
     propagationStack: number[]; // Cell IDs
     state: OrganicSolverState;
     stepCount: number;
+    private generationFrame: number | null = null;
+
+    cancelGeneration() {
+        if (this.generationFrame !== null) cancelAnimationFrame(this.generationFrame);
+        this.generationFrame = null;
+    }
 
     constructor(grid: OrganicGrid) {
         this.grid = grid;
@@ -51,8 +57,7 @@ export class OrganicSolver {
         this.propagationStack.push(cell.id);
         this.state = 'propagating';
 
-        this._propagateAll(skipAnimation);
-        return true;
+        return this._propagateAll(skipAnimation);
     }
 
     _propagateAll(skipAnimation: boolean = false) {
@@ -70,6 +75,7 @@ export class OrganicSolver {
         if (this.state !== 'error') {
             this.state = 'idle';
         }
+        return this.state === 'idle';
     }
 
     _propagateStep(skipAnimation: boolean = false) {
@@ -82,7 +88,7 @@ export class OrganicSolver {
             if (nId === -1) continue;
 
             const neighbor = this.grid.cells[nId];
-            if (!neighbor || neighbor.collapsed) continue;
+            if (!neighbor) continue;
 
             // Collect all universally valid options for the neighbor
             const allowed = new Set<number>();
@@ -102,7 +108,6 @@ export class OrganicSolver {
             if (neighbor.options.size === 0) {
                 this.state = 'error';
                 neighbor.flash = { type: 'error', timer: 1.0 };
-                console.error("Contradiction reached at organic cell", neighbor.id);
                 return;
             }
 
@@ -144,10 +149,10 @@ export class OrganicSolver {
         { vegetation, civilization, clustering, inlandWater, beachFormation, pathGeneration }:
             { vegetation: number, civilization: number, clustering: number, inlandWater: number, beachFormation: number, pathGeneration: number },
         onProgress: (percent: number) => void,
-        onComplete: () => void
+        onComplete: (outcome: 'complete' | 'error') => void
     ) {
         if (this.grid.isFullyCollapsed || this.state === 'error') {
-            onComplete();
+            onComplete(this.state === 'error' ? 'error' : 'complete');
             return;
         }
 
@@ -173,12 +178,13 @@ export class OrganicSolver {
 
                 if (targetCells.length === 0) {
                     onProgress(100);
-                    onComplete();
+                    onComplete('complete');
                     return;
                 }
 
                 // Randomly select one of the lowest entropy cells
                 const targetCell = targetCells[Math.floor(Math.random() * targetCells.length)];
+                if (!targetCell.options.size) { this.state = 'error'; onComplete('error'); return; }
 
                 // Calculate dynamic weight based on neighbor clustering
                 // This forces biomes to group together (grass with grass, sand with sand)
@@ -263,14 +269,14 @@ export class OrganicSolver {
                 cellsToProcess--;
 
                 if (this.state === 'error') {
-                    onProgress(100);
-                    onComplete();
+                    onProgress((this.grid.collapsedCount / this.grid.cells.length) * 100);
+                    onComplete('error');
                     return;
                 }
 
                 if (this.grid.isFullyCollapsed) {
                     onProgress(100);
-                    onComplete();
+                    onComplete('complete');
                     return;
                 }
             }
@@ -279,7 +285,7 @@ export class OrganicSolver {
             onProgress(percent);
 
             if (!this.grid.isFullyCollapsed && this.state !== 'error') {
-                requestAnimationFrame(step);
+                this.generationFrame = requestAnimationFrame(step);
             }
         };
 

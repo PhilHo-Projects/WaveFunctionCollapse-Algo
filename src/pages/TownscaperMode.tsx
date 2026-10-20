@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { OrganicGrid } from '../core/townscaper/OrganicGrid';
 import { OrganicSolver } from '../core/townscaper/OrganicSolver';
 import { ORGANIC_TILES } from '../core/townscaper/OrganicTiles';
 import { OrganicRenderer } from '../components/OrganicRenderer';
 
 export default function TownscaperMode() {
-    const [pointCount, setPointCount] = useState(1000);
-    const [relaxAmount, setRelaxAmount] = useState(3);
+    const [pointCount] = useState(1000);
+    const [relaxAmount] = useState(3);
     const [selectedToolId, setSelectedToolId] = useState(2); // Grass
     const [grid, setGrid] = useState<OrganicGrid | null>(null);
     const [solver, setSolver] = useState<OrganicSolver | null>(null);
@@ -15,42 +15,20 @@ export default function TownscaperMode() {
 
     const [tooltipInfo, setTooltipInfo] = useState<{ html: string; x: number; y: number } | null>(null);
 
-    useEffect(() => {
-        handleReset();
-    }, [pointCount, relaxAmount]);
-
-    const handleReset = () => {
-        setStatus('Generating Grid...');
-        // Small timeout to allow React to render "Generating"
-        setTimeout(() => {
-            const newGrid = new OrganicGrid(800, 800, pointCount, relaxAmount, ORGANIC_TILES.length);
-            const newSolver = new OrganicSolver(newGrid);
-
-            // Auto-collapse edges to Deep Water to create an island effect!
-            newGrid.cells.forEach(cell => {
-                // The grid is 800x800, so edge bounds remain similar but denser
-                if (cell.x < 30 || cell.x > 770 || cell.y < 30 || cell.y > 770) {
-                    if (cell.options.has(0)) {
-                        newSolver.userCollapse(cell, 0);
-                    }
-                }
-            });
-
-            setGrid(newGrid);
-            setSolver(newSolver);
-            updateStatus(newGrid, newSolver);
-        }, 10);
-    };
-
-    const updateStatus = (g: OrganicGrid, s: OrganicSolver) => {
-        const stateMap: Record<string, string> = {
-            idle: 'Ready to build',
-            propagating: 'Propagating…',
-            error: '✗ Contradiction Reached',
-        };
-        setStatus(stateMap[s.state] || s.state);
+    const updateStatus = useCallback((g: OrganicGrid, solver: OrganicSolver) => {
+        setStatus(solver.state === 'error' ? '✗ Contradiction Reached' : 'Ready to build');
         setCollapsedCount(g.collapsedCount);
-    };
+    }, []);
+    const handleReset = useCallback(() => {
+        const timer = setTimeout(() => {
+            const newGrid = new OrganicGrid(800,800,pointCount,relaxAmount,ORGANIC_TILES.length);
+            const newSolver = new OrganicSolver(newGrid);
+            newGrid.cells.forEach(cell => { if ((cell.x < 30 || cell.x > 770 || cell.y < 30 || cell.y > 770) && cell.options.has(0)) newSolver.userCollapse(cell,0,true); });
+            setGrid(newGrid); setSolver(newSolver); updateStatus(newGrid,newSolver);
+        },10);
+        return () => clearTimeout(timer);
+    },[pointCount,relaxAmount,updateStatus]);
+    useEffect(() => handleReset(), [handleReset]);
 
     const handleCellClick = (id: number) => {
         if (!grid || !solver || solver.state === 'error') return;

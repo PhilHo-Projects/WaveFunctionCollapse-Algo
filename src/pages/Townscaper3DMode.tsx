@@ -1,92 +1,8 @@
-import { useState, useEffect } from 'react';
-import { OrganicGrid } from '../core/townscaper/OrganicGrid';
-import { OrganicSolver } from '../core/townscaper/OrganicSolver';
-import { ORGANIC_TILES } from '../core/townscaper/OrganicTiles';
+import { useOrganicGeneration } from '../core/townscaper/useOrganicGeneration';
 import { OrganicRenderer3D } from '../components/OrganicRenderer3D';
 
 export default function Townscaper3DProcedural() {
-    const [pointCount, setPointCount] = useState(400);
-    const [relaxAmount] = useState(3);
-    const [waterLevel, setWaterLevel] = useState(70);
-    const [vegetation, setVegetation] = useState(50);
-    const [civilization, setCivilization] = useState(50);
-    const [clustering, setClustering] = useState(50);
-    const [inlandWater, setInlandWater] = useState(0);
-    const [beachFormation, setBeachFormation] = useState(70);
-    const [pathGeneration, setPathGeneration] = useState(70);
-    const [grid, setGrid] = useState<OrganicGrid | null>(null);
-    const [solver, setSolver] = useState<OrganicSolver | null>(null);
-    const [status, setStatus] = useState('Idle');
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [progress, setProgress] = useState(0);
-
-    useEffect(() => {
-        handleReset(pointCount);
-    }, []);
-
-    const handleReset = (count = pointCount) => {
-        setIsGenerating(false);
-        setProgress(0);
-        setStatus('Ready');
-
-        const newGrid = new OrganicGrid(800, 800, count, relaxAmount, ORGANIC_TILES.length);
-        const newSolver = new OrganicSolver(newGrid);
-
-        const maxRadius = 400 - (waterLevel / 100) * 350;
-
-        newGrid.cells.forEach(cell => {
-            const distFromCenter = Math.sqrt(Math.pow(cell.x - 400, 2) + Math.pow(cell.y - 400, 2));
-            const noise = Math.random() * (40 + (maxRadius * 0.1)) - (20 + (maxRadius * 0.05));
-
-            if (distFromCenter + noise > maxRadius || cell.x < 40 || cell.x > 760 || cell.y < 40 || cell.y > 760) {
-                if (cell.options.has(0)) {
-                    newSolver.userCollapse(cell, 0, true);
-                }
-            }
-        });
-
-        setGrid(newGrid);
-        setSolver(newSolver);
-    };
-
-    const handleGenerate = () => {
-        if (!grid || !solver) return;
-
-        let activeGrid = grid;
-        let activeSolver = solver;
-
-        if (grid.collapsedCount > (pointCount * 0.2)) {
-            activeGrid = new OrganicGrid(800, 800, pointCount, relaxAmount, ORGANIC_TILES.length);
-            activeSolver = new OrganicSolver(activeGrid);
-
-            const maxRadius = 400 - (waterLevel / 100) * 350;
-            activeGrid.cells.forEach(cell => {
-                const distFromCenter = Math.sqrt(Math.pow(cell.x - 400, 2) + Math.pow(cell.y - 400, 2));
-                const noise = Math.random() * (40 + (maxRadius * 0.1)) - (20 + (maxRadius * 0.05));
-                if (distFromCenter + noise > maxRadius || cell.x < 40 || cell.x > 760 || cell.y < 40 || cell.y > 760) {
-                    if (cell.options.has(0)) {
-                        activeSolver.userCollapse(cell, 0, true);
-                    }
-                }
-            });
-            setGrid(activeGrid);
-            setSolver(activeSolver);
-        }
-
-        setIsGenerating(true);
-        setStatus('Synthesizing Terrain...');
-        setProgress(0);
-
-        activeSolver.autoGenerate(
-            { vegetation, civilization, clustering, inlandWater, beachFormation, pathGeneration },
-            (p) => setProgress(p),
-            () => {
-                setStatus('Generation Complete! (3D Renderer)');
-                setIsGenerating(false);
-            }
-        );
-    };
-
+    const { grid,pointCount,setPointCount,waterLevel,setWaterLevel,vegetation,setVegetation,civilization,setCivilization,clustering,setClustering,inlandWater,setInlandWater,beachFormation,setBeachFormation,pathGeneration,setPathGeneration,status,isGenerating,progress,handleReset,handleGenerate }=useOrganicGeneration(400);
     return (
         <div className="flex flex-col md:flex-row gap-6 h-full max-h-[800px] w-full max-w-[1200px] mx-auto">
 
@@ -130,7 +46,7 @@ export default function Townscaper3DProcedural() {
                             <span>Water Level</span>
                             <span className="font-mono">{waterLevel}%</span>
                         </div>
-                        <input type="range" min="0" max="100" value={waterLevel} onChange={(e) => { setWaterLevel(parseInt(e.target.value)); handleReset(); }} disabled={isGenerating} className="w-full h-1.5 bg-[--bg-secondary] rounded-lg appearance-none cursor-pointer border border-[--border]" />
+                        <input type="range" min="0" max="100" value={waterLevel} onChange={(e) => { setWaterLevel(parseInt(e.target.value)); handleReset(pointCount,parseInt(e.target.value)); }} disabled={isGenerating} className="w-full h-1.5 bg-[--bg-secondary] rounded-lg appearance-none cursor-pointer border border-[--border]" />
                     </div>
 
                     <div className="mb-4">

@@ -8,8 +8,8 @@ export default function ExplainerMode() {
     const [gridSize, setGridSize] = useState(10);
     const [speed, setSpeed] = useState(200);
     const [playing, setPlaying] = useState(false);
-    const [grid, setGrid] = useState<Grid | null>(null);
-    const [solver, setSolver] = useState<WFCSolver | null>(null);
+    const [grid, setGrid] = useState<Grid>(()=>new Grid(10,10,TILES.length));
+    const [solver, setSolver] = useState<WFCSolver>(()=>new WFCSolver(grid));
     const [status, setStatus] = useState('Ready');
     const [collapsedCount, setCollapsedCount] = useState(0);
     const [stepCount, setStepCount] = useState(0);
@@ -17,24 +17,10 @@ export default function ExplainerMode() {
     const [tooltipInfo, setTooltipInfo] = useState<{ html: string; x: number; y: number } | null>(null);
 
     const playingRef = useRef(playing);
-    const lastAutoStepRef = useRef(performance.now());
-    const rafRef = useRef<number>();
+    const lastAutoStepRef = useRef(0);
+    const rafRef = useRef<number | undefined>(undefined);
 
-    useEffect(() => {
-        playingRef.current = playing;
-    }, [playing]);
-
-    // Init Grid
-    useEffect(() => {
-        const newGrid = new Grid(gridSize, gridSize, TILES.length);
-        const newSolver = new WFCSolver(newGrid);
-        setGrid(newGrid);
-        setSolver(newSolver);
-        setPlaying(false);
-        updateStatus(newGrid, newSolver);
-    }, [gridSize]);
-
-    const updateStatus = (g: Grid, s: WFCSolver) => {
+    function updateStatus(g: Grid, s: WFCSolver) {
         const stateMap: Record<string, string> = {
             idle: 'Ready',
             observing: 'Observing…',
@@ -49,6 +35,12 @@ export default function ExplainerMode() {
             setPlaying(false);
         }
     };
+
+    useEffect(() => {
+        playingRef.current = playing;
+    }, [playing]);
+
+
 
     // Main Loop
     useEffect(() => {
@@ -81,8 +73,10 @@ export default function ExplainerMode() {
         updateStatus(grid!, solver!);
     };
 
-    const handleReset = () => {
-        const newGrid = new Grid(gridSize, gridSize, TILES.length);
+    const handleReset = () => resetToSize(gridSize);
+
+    const resetToSize = (nextSize: number) => {
+        const newGrid = new Grid(nextSize, nextSize, TILES.length);
         const newSolver = new WFCSolver(newGrid);
         setGrid(newGrid);
         setSolver(newSolver);
@@ -169,7 +163,7 @@ export default function ExplainerMode() {
                         {[10, 15, 20].map(size => (
                             <button
                                 key={size}
-                                onClick={() => setGridSize(size)}
+                                onClick={() => { setGridSize(size); resetToSize(size); }}
                                 className={`flex-1 py-2 px-1.5 font-mono text-xs font-medium border rounded-lg transition-all ${gridSize === size ? 'bg-[--accent-dim] border-[--accent] text-[--accent]' : 'bg-[--bg-primary] border-[--border-light] text-[--text-primary] hover:bg-[--bg-card-hover] hover:border-[--accent] hover:text-[--accent]'
                                     }`}
                             >

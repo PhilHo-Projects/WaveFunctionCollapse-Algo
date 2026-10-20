@@ -1,12 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { Grid } from '../core/wfc/Grid';
+import type { Cell } from '../core/wfc/Cell';
 import { TILES, TERRAIN_COLORS } from '../core/wfc/Tiles';
 
 interface CanvasRendererProps {
     grid: Grid | null;
     selectedToolId?: number; // Only for builder mode
     onCellClick?: (x: number, y: number) => void;
-    onHoverCell?: (cell: any, htmlTooltip: string, clientX: number, clientY: number) => void;
+    onHoverCell?: (cell: Cell, htmlTooltip: string, clientX: number, clientY: number) => void;
     onHoverLeave?: () => void;
     isBuilderMode?: boolean;
 }
@@ -22,8 +23,8 @@ export const CanvasRenderer: React.FC<CanvasRendererProps> = ({
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const cellSizeRef = useRef<number>(0);
-    const rafRef = useRef<number>();
-    const lastFrameRef = useRef<number>(performance.now());
+    const rafRef = useRef<number | undefined>(undefined);
+    const lastFrameRef = useRef<number>(0);
 
     useEffect(() => {
         const handleResize = () => {
@@ -90,7 +91,7 @@ export const CanvasRenderer: React.FC<CanvasRendererProps> = ({
                     const opts = Array.from(cell.options);
                     const baseTerrains = new Set<number>();
                     for (const idx of opts) {
-                        baseTerrains.add((TILES[idx].sockets as any).south);
+                        baseTerrains.add(TILES[idx].sockets.south);
                     }
 
                     if (baseTerrains.size <= 5 && s >= 20) {
@@ -194,12 +195,12 @@ export const CanvasRenderer: React.FC<CanvasRendererProps> = ({
         const cy = (clientY - rect.top) * scaleY;
         const col = Math.floor(cx / cellSizeRef.current);
         const row = Math.floor(cy / cellSizeRef.current);
-        return grid.get(col, row);
+        return grid.get(col, row) ?? null;
     };
 
-    const hoveredCellRef = useRef<any>(null);
+    const hoveredCellRef = useRef<Cell | null>(null);
     const isDraggingRef = useRef(false);
-    const lastPlacedCellRef = useRef<any>(null);
+    const lastPlacedCellRef = useRef<Cell | null>(null);
 
     const handleMouseDown = (e: React.MouseEvent) => {
         isDraggingRef.current = true;

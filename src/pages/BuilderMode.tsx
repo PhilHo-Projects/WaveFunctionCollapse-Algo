@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid } from '../core/wfc/Grid';
 import { InteractiveWFCSolver } from '../core/wfc/InteractiveWFCSolver';
 import { TILES, TERRAIN_COLORS } from '../core/wfc/Tiles';
@@ -7,24 +7,15 @@ import { CanvasRenderer } from '../components/CanvasRenderer';
 export default function BuilderMode() {
     const [gridSize, setGridSize] = useState(15);
     const [selectedToolId, setSelectedToolId] = useState(2); // Default Grass
-    const [grid, setGrid] = useState<Grid | null>(null);
-    const [solver, setSolver] = useState<InteractiveWFCSolver | null>(null);
+    const [grid, setGrid] = useState<Grid>(()=>new Grid(15,15,TILES.length));
+    const [solver, setSolver] = useState<InteractiveWFCSolver>(()=>new InteractiveWFCSolver(grid));
     const [status, setStatus] = useState('Ready to build');
     const [collapsedCount, setCollapsedCount] = useState(0);
     const [stepCount, setStepCount] = useState(0);
 
     const [tooltipInfo, setTooltipInfo] = useState<{ html: string; x: number; y: number } | null>(null);
 
-    useEffect(() => {
-        const newGrid = new Grid(gridSize, gridSize, TILES.length);
-        const newSolver = new InteractiveWFCSolver(newGrid);
-        setGrid(newGrid);
-        setSolver(newSolver);
-        updateStatus(newGrid, newSolver);
-        setStepCount(0); // Reset total steps
-    }, [gridSize]);
-
-    const updateStatus = (g: Grid, s: InteractiveWFCSolver) => {
+    function updateStatus(g: Grid, s: InteractiveWFCSolver) {
         const stateMap: Record<string, string> = {
             idle: 'Ready to build',
             propagating: 'Propagating…',
@@ -36,11 +27,12 @@ export default function BuilderMode() {
         setStepCount(prev => prev + s.stepCount);
     };
 
+
+
     const handleCellClick = (x: number, y: number) => {
         if (!grid || !solver || solver.state === 'error') return;
         const cell = grid.get(x, y);
         if (cell && !cell.collapsed) {
-            solver.stepCount = 0; // reset local solver step count for this click burst
             const success = solver.userCollapse(cell, selectedToolId);
             if (success) {
                 updateStatus(grid, solver);
@@ -48,8 +40,10 @@ export default function BuilderMode() {
         }
     };
 
-    const handleReset = () => {
-        const newGrid = new Grid(gridSize, gridSize, TILES.length);
+    const handleReset = () => resetToSize(gridSize);
+
+    const resetToSize = (nextSize: number) => {
+        const newGrid = new Grid(nextSize, nextSize, TILES.length);
         const newSolver = new InteractiveWFCSolver(newGrid);
         setGrid(newGrid);
         setSolver(newSolver);
@@ -136,7 +130,7 @@ export default function BuilderMode() {
                         {[10, 15, 20, 30].map(size => (
                             <button
                                 key={size}
-                                onClick={() => setGridSize(size)}
+                                onClick={() => { setGridSize(size); resetToSize(size); }}
                                 className={`flex-1 min-w-[30%] py-2 px-1 font-mono text-xs font-medium border rounded-lg transition-all ${gridSize === size
                                         ? 'bg-[--accent-dim] border-[--accent] text-[--accent]'
                                         : 'bg-[--bg-primary] border-[--border-light] text-[--text-primary] hover:bg-[--bg-card-hover] hover:border-[--accent] hover:text-[--accent]'

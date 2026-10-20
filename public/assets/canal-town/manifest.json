@@ -1,0 +1,4266 @@
+{
+  "version": "canal-1",
+  "modules": [
+    {
+      "id": "air-0-0-0",
+      "family": "air",
+      "category": "air",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "air",
+      "anchors": []
+    },
+    {
+      "id": "foundation-0-0-0",
+      "family": "foundation",
+      "category": "ground",
+      "sockets": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "foundation",
+      "anchors": [
+        {
+          "kind": "quay prop",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "foundation-0-1-0",
+      "family": "foundation",
+      "category": "ground",
+      "sockets": [
+        "base",
+        "base",
+        "base",
+        "base",
+        "base",
+        "floor"
+      ],
+      "mask": 0,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "foundation",
+      "anchors": [
+        {
+          "kind": "quay prop",
+          "position": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lattice open bay-0-0-0",
+      "family": "lattice open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_0_0",
+      "anchors": []
+    },
+    {
+      "id": "lattice open bay-0-0-0",
+      "family": "lattice open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_0_0",
+      "anchors": []
+    },
+    {
+      "id": "plaster open bay-0-1-0",
+      "family": "plaster open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 0,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_0_1",
+      "anchors": []
+    },
+    {
+      "id": "plaster open bay-0-1-0",
+      "family": "plaster open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 0,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_0_1",
+      "anchors": []
+    },
+    {
+      "id": "shopfront open bay-0-2-0",
+      "family": "shopfront open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 0,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_0_2",
+      "anchors": []
+    },
+    {
+      "id": "shopfront open bay-0-2-0",
+      "family": "shopfront open bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 0,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_0_2",
+      "anchors": []
+    },
+    {
+      "id": "lattice wall bay-1-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 1,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_1_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-1-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 1,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_1_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-1-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 1,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_1_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-1-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 1,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_1_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-1-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 1,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_1_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-1-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 1,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_1_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-2-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 2,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_2_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-2-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 2,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_2_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-2-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 2,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_2_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-2-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 2,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_2_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-2-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 2,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_2_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-2-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 2,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_2_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-3-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 3,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_3_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-3-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 3,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_3_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-3-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 3,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_3_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-3-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 3,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_3_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-3-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 3,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_3_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-3-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 3,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_3_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-4-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 4,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_4_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-4-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 4,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_4_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-4-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 4,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_4_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-4-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 4,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_4_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-4-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 4,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_4_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-4-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 4,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_4_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice through bay-5-0-0",
+      "family": "lattice through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 5,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_5_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice through bay-5-0-0",
+      "family": "lattice through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 5,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_5_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster through bay-5-1-0",
+      "family": "plaster through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 5,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_5_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster through bay-5-1-0",
+      "family": "plaster through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 5,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_5_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront through bay-5-2-0",
+      "family": "shopfront through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 5,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_5_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront through bay-5-2-0",
+      "family": "shopfront through bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 5,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_5_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-6-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 6,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_6_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-6-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 6,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_6_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-6-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 6,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_6_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-6-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 6,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_6_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-6-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 6,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_6_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-6-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 6,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_6_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-7-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 7,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_7_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-7-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 7,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_7_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-7-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 7,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_7_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-7-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 7,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_7_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-7-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "floor"
+      ],
+      "mask": 7,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_7_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-7-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "room",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 7,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_7_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-8-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 8,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_8_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice wall bay-8-0-0",
+      "family": "lattice wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 8,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_8_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-8-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 8,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_8_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster wall bay-8-1-0",
+      "family": "plaster wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 8,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_8_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-8-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 8,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_8_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront wall bay-8-2-0",
+      "family": "shopfront wall bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 8,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_8_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-9-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 9,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_9_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-9-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 9,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_9_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-9-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 9,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_9_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-9-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 9,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_9_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-9-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 9,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_9_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-9-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 9,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_9_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice through bay-10-0-0",
+      "family": "lattice through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 10,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_10_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice through bay-10-0-0",
+      "family": "lattice through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 10,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_10_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster through bay-10-1-0",
+      "family": "plaster through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 10,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_10_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster through bay-10-1-0",
+      "family": "plaster through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 10,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_10_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront through bay-10-2-0",
+      "family": "shopfront through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 10,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_10_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront through bay-10-2-0",
+      "family": "shopfront through bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 10,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_10_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-11-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 11,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_11_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-11-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 11,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_11_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-11-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 11,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_11_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-11-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 11,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_11_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-11-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 11,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_11_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-11-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "room",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 11,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_11_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-12-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 12,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_12_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice corner bay-12-0-0",
+      "family": "lattice corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 12,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_12_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-12-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 12,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_12_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster corner bay-12-1-0",
+      "family": "plaster corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 12,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_12_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-12-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 12,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_12_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront corner bay-12-2-0",
+      "family": "shopfront corner bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 12,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_12_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-13-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 13,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_13_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-13-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 13,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_13_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-13-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 13,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_13_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-13-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 13,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_13_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-13-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 13,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_13_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-13-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "room",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 13,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_13_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-14-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 14,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_14_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice end bay-14-0-0",
+      "family": "lattice end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 14,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_14_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-14-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 14,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_14_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster end bay-14-1-0",
+      "family": "plaster end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 14,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_14_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-14-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 14,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_14_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront end bay-14-2-0",
+      "family": "shopfront end bay",
+      "category": "room",
+      "sockets": [
+        "room",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 14,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_14_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice enclosed bay-15-0-0",
+      "family": "lattice enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 15,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_15_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "lattice enclosed bay-15-0-0",
+      "family": "lattice enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 15,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 3,
+      "mesh": "room_15_0",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster enclosed bay-15-1-0",
+      "family": "plaster enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 15,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_15_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "plaster enclosed bay-15-1-0",
+      "family": "plaster enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 15,
+      "variant": 1,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_15_1",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront enclosed bay-15-2-0",
+      "family": "shopfront enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "floor"
+      ],
+      "mask": 15,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_15_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "shopfront enclosed bay-15-2-0",
+      "family": "shopfront enclosed bay",
+      "category": "room",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "floor",
+        "roofbase"
+      ],
+      "mask": 15,
+      "variant": 2,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "room_15_2",
+      "anchors": [
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.33,
+            0.55,
+            -0.56
+          ],
+          "face": 0
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.56,
+            0.55,
+            -0.33
+          ],
+          "face": 1
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            0.33,
+            0.55,
+            0.56
+          ],
+          "face": 2
+        },
+        {
+          "kind": "wall lantern",
+          "position": [
+            -0.56,
+            0.55,
+            0.33
+          ],
+          "face": 3
+        }
+      ]
+    },
+    {
+      "id": "hip cap-0-0-0",
+      "family": "hip cap",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 0.5,
+      "mesh": "roof_0",
+      "anchors": []
+    },
+    {
+      "id": "gable end-1-0-0",
+      "family": "gable end",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "air",
+        "air",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 1,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 5,
+      "mesh": "roof_1",
+      "anchors": []
+    },
+    {
+      "id": "gable end-2-0-0",
+      "family": "gable end",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "ridge",
+        "air",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 2,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 5,
+      "mesh": "roof_2",
+      "anchors": []
+    },
+    {
+      "id": "roof corner-3-0-0",
+      "family": "roof corner",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "ridge",
+        "air",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 3,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_3",
+      "anchors": []
+    },
+    {
+      "id": "gable end-4-0-0",
+      "family": "gable end",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "air",
+        "ridge",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 4,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 5,
+      "mesh": "roof_4",
+      "anchors": []
+    },
+    {
+      "id": "gable run-5-0-0",
+      "family": "gable run",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "air",
+        "ridge",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 5,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_5",
+      "anchors": []
+    },
+    {
+      "id": "roof corner-6-0-0",
+      "family": "roof corner",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "ridge",
+        "ridge",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 6,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_6",
+      "anchors": []
+    },
+    {
+      "id": "roof junction-7-0-0",
+      "family": "roof junction",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "ridge",
+        "ridge",
+        "air",
+        "roofbase",
+        "air"
+      ],
+      "mask": 7,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "roof_7",
+      "anchors": []
+    },
+    {
+      "id": "gable end-8-0-0",
+      "family": "gable end",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 8,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 5,
+      "mesh": "roof_8",
+      "anchors": []
+    },
+    {
+      "id": "roof corner-9-0-0",
+      "family": "roof corner",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "air",
+        "air",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 9,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_9",
+      "anchors": []
+    },
+    {
+      "id": "gable run-10-0-0",
+      "family": "gable run",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "ridge",
+        "air",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 10,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_10",
+      "anchors": []
+    },
+    {
+      "id": "roof junction-11-0-0",
+      "family": "roof junction",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "ridge",
+        "air",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 11,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "roof_11",
+      "anchors": []
+    },
+    {
+      "id": "roof corner-12-0-0",
+      "family": "roof corner",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "air",
+        "ridge",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 12,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 8,
+      "mesh": "roof_12",
+      "anchors": []
+    },
+    {
+      "id": "roof junction-13-0-0",
+      "family": "roof junction",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "air",
+        "ridge",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 13,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "roof_13",
+      "anchors": []
+    },
+    {
+      "id": "roof junction-14-0-0",
+      "family": "roof junction",
+      "category": "roof",
+      "sockets": [
+        "air",
+        "ridge",
+        "ridge",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 14,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "roof_14",
+      "anchors": []
+    },
+    {
+      "id": "roof crossing-15-0-0",
+      "family": "roof crossing",
+      "category": "roof",
+      "sockets": [
+        "ridge",
+        "ridge",
+        "ridge",
+        "ridge",
+        "roofbase",
+        "air"
+      ],
+      "mask": 15,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 2,
+      "mesh": "roof_15",
+      "anchors": []
+    },
+    {
+      "id": "single bridge-0-0-0",
+      "family": "single bridge",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "bridge_single",
+      "anchors": []
+    },
+    {
+      "id": "bridge landing-4-0-0",
+      "family": "bridge landing",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "deck",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 4,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "bridge_end",
+      "anchors": []
+    },
+    {
+      "id": "single bridge-0-0-1",
+      "family": "single bridge",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 1,
+      "weight": 1,
+      "mesh": "bridge_single",
+      "anchors": []
+    },
+    {
+      "id": "bridge landing-8-0-1",
+      "family": "bridge landing",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "deck",
+        "air",
+        "air"
+      ],
+      "mask": 8,
+      "variant": 0,
+      "rotation": 1,
+      "weight": 1,
+      "mesh": "bridge_end",
+      "anchors": []
+    },
+    {
+      "id": "single bridge-0-0-2",
+      "family": "single bridge",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 2,
+      "weight": 1,
+      "mesh": "bridge_single",
+      "anchors": []
+    },
+    {
+      "id": "bridge landing-1-0-2",
+      "family": "bridge landing",
+      "category": "bridge",
+      "sockets": [
+        "deck",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 1,
+      "variant": 0,
+      "rotation": 2,
+      "weight": 1,
+      "mesh": "bridge_end",
+      "anchors": []
+    },
+    {
+      "id": "single bridge-0-0-3",
+      "family": "single bridge",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "air",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 0,
+      "variant": 0,
+      "rotation": 3,
+      "weight": 1,
+      "mesh": "bridge_single",
+      "anchors": []
+    },
+    {
+      "id": "bridge landing-2-0-3",
+      "family": "bridge landing",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "deck",
+        "air",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 2,
+      "variant": 0,
+      "rotation": 3,
+      "weight": 1,
+      "mesh": "bridge_end",
+      "anchors": []
+    },
+    {
+      "id": "bridge span-5-0-0",
+      "family": "bridge span",
+      "category": "bridge",
+      "sockets": [
+        "deck",
+        "air",
+        "deck",
+        "air",
+        "air",
+        "air"
+      ],
+      "mask": 5,
+      "variant": 0,
+      "rotation": 0,
+      "weight": 1,
+      "mesh": "bridge_span",
+      "anchors": []
+    },
+    {
+      "id": "bridge span-10-0-1",
+      "family": "bridge span",
+      "category": "bridge",
+      "sockets": [
+        "air",
+        "deck",
+        "air",
+        "deck",
+        "air",
+        "air"
+      ],
+      "mask": 10,
+      "variant": 0,
+      "rotation": 1,
+      "weight": 1,
+      "mesh": "bridge_span",
+      "anchors": []
+    }
+  ],
+  "families": [
+    "air",
+    "bridge landing",
+    "bridge span",
+    "foundation",
+    "gable end",
+    "gable run",
+    "hip cap",
+    "lattice corner bay",
+    "lattice enclosed bay",
+    "lattice end bay",
+    "lattice open bay",
+    "lattice through bay",
+    "lattice wall bay",
+    "plaster corner bay",
+    "plaster enclosed bay",
+    "plaster end bay",
+    "plaster open bay",
+    "plaster through bay",
+    "plaster wall bay",
+    "roof corner",
+    "roof crossing",
+    "roof junction",
+    "shopfront corner bay",
+    "shopfront enclosed bay",
+    "shopfront end bay",
+    "shopfront open bay",
+    "shopfront through bay",
+    "shopfront wall bay",
+    "single bridge"
+  ],
+  "props": [
+    "lantern",
+    "planter",
+    "willow",
+    "crates",
+    "boat",
+    "noren",
+    "sakura",
+    "bench",
+    "market_umbrella",
+    "reeds"
+  ],
+  "details": [
+    "bank_edge",
+    "railing"
+  ],
+  "visualRevision": 2,
+  "coordinates": "Canonical Y-up; x/z [-.5,.5]; faces z-, x+, z+, x-, below, above",
+  "source": "Original Blender-authored Canal Town kit"
+}

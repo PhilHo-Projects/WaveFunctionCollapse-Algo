@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { OrganicGrid } from '../core/townscaper/OrganicGrid';
+import { OrganicGrid, type OrganicCell } from '../core/townscaper/OrganicGrid';
 import { ORGANIC_TILES } from '../core/townscaper/OrganicTiles';
 import { animate } from 'animejs';
 
@@ -7,7 +7,7 @@ interface OrganicRendererProps {
     grid: OrganicGrid | null;
     selectedToolId?: number;
     onCellClick?: (id: number) => void;
-    onHoverCell?: (cell: any, html: string, x: number, y: number) => void;
+    onHoverCell?: (cell: OrganicCell, html: string, x: number, y: number) => void;
     onHoverLeave?: () => void;
 }
 
@@ -20,7 +20,7 @@ export const OrganicRenderer: React.FC<OrganicRendererProps> = ({
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const rafRef = useRef<number>(0);
-    const hoveredCellRef = useRef<any>(null);
+    const hoveredCellRef = useRef<OrganicCell | null>(null);
 
     useEffect(() => {
         if (!grid || !canvasRef.current) return;
@@ -137,7 +137,7 @@ export const OrganicRenderer: React.FC<OrganicRendererProps> = ({
     }, [grid]);
 
     const isDraggingRef = useRef(false);
-    const lastPlacedCellRef = useRef<any>(null);
+    const lastPlacedCellRef = useRef<OrganicCell | null>(null);
 
     const getEventCell = (e: React.MouseEvent) => {
         if (!grid || !canvasRef.current) return null;
@@ -146,7 +146,7 @@ export const OrganicRenderer: React.FC<OrganicRendererProps> = ({
         const scaleY = canvasRef.current.height / rect.height;
         const x = (e.clientX - rect.left) * scaleX;
         const y = (e.clientY - rect.top) * scaleY;
-        return grid.getCellAt(x, y);
+        return grid.getCellAt(x, y) ?? null;
     };
 
     const handleMouseDown = (e: React.MouseEvent) => {

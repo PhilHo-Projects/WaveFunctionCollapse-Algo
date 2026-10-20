@@ -1,107 +1,11 @@
-import { useState, useEffect } from 'react';
-import { OrganicGrid } from '../core/townscaper/OrganicGrid';
-import { OrganicSolver } from '../core/townscaper/OrganicSolver';
-import { ORGANIC_TILES } from '../core/townscaper/OrganicTiles';
+import { useState } from 'react';
+import { useOrganicGeneration } from '../core/townscaper/useOrganicGeneration';
 import { OrganicRenderer } from '../components/OrganicRenderer';
 
 export default function TownscaperGenMode() {
-    const [pointCount, setPointCount] = useState(1000);
-    const [relaxAmount] = useState(3);
-    const [waterLevel, setWaterLevel] = useState(70);
-    const [vegetation, setVegetation] = useState(50);
-    const [civilization, setCivilization] = useState(50);
-    const [clustering, setClustering] = useState(50);
-    const [inlandWater, setInlandWater] = useState(0);
-    const [beachFormation, setBeachFormation] = useState(70);
-    const [pathGeneration, setPathGeneration] = useState(70);
-    const [grid, setGrid] = useState<OrganicGrid | null>(null);
-    const [solver, setSolver] = useState<OrganicSolver | null>(null);
-    const [status, setStatus] = useState('Idle');
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [progress, setProgress] = useState(0);
-
-    const [tooltipInfo, setTooltipInfo] = useState<{ html: string; x: number; y: number } | null>(null);
-
-    // Initial silent grid setup without triggering auto-generate
-    useEffect(() => {
-        handleReset(pointCount);
-    }, []);
-
-    const handleReset = (count = pointCount) => {
-        setIsGenerating(false);
-        setProgress(0);
-        setStatus('Ready');
-
-        const newGrid = new OrganicGrid(800, 800, count, relaxAmount, ORGANIC_TILES.length);
-        const newSolver = new OrganicSolver(newGrid);
-
-        // Build a strong water border with some variance to force a cohesive central island
-        // 100% water level = tiny 50px island. 0% = massive 400px island spanning whole grid
-        const maxRadius = 400 - (waterLevel / 100) * 350;
-
-        newGrid.cells.forEach(cell => {
-            const distFromCenter = Math.sqrt(Math.pow(cell.x - 400, 2) + Math.pow(cell.y - 400, 2));
-
-            // Random noise to make the coastline jagged
-            const noise = Math.random() * (40 + (maxRadius * 0.1)) - (20 + (maxRadius * 0.05));
-
-            if (distFromCenter + noise > maxRadius || cell.x < 40 || cell.x > 760 || cell.y < 40 || cell.y > 760) {
-                if (cell.options.has(0)) {
-                    newSolver.userCollapse(cell, 0, true);
-                }
-            }
-        });
-
-        setGrid(newGrid);
-        setSolver(newSolver);
-    };
-
-    const handleGenerate = () => {
-        if (!grid || !solver) return;
-
-        // Ensure we are operating on a fresh grid so 'Auto Generate' can be clicked multiple times
-        let activeGrid = grid;
-        let activeSolver = solver;
-
-        // If the current grid is already partially or fully collapsed by a previous generation run, 
-        // we must instantly reset the grid behind the scenes before triggering the new run.
-        if (grid.collapsedCount > (pointCount * 0.2)) {
-            activeGrid = new OrganicGrid(800, 800, pointCount, relaxAmount, ORGANIC_TILES.length);
-            activeSolver = new OrganicSolver(activeGrid);
-
-            // Re-apply the island water borders
-            const maxRadius = 400 - (waterLevel / 100) * 350;
-            activeGrid.cells.forEach(cell => {
-                const distFromCenter = Math.sqrt(Math.pow(cell.x - 400, 2) + Math.pow(cell.y - 400, 2));
-                const noise = Math.random() * (40 + (maxRadius * 0.1)) - (20 + (maxRadius * 0.05));
-                if (distFromCenter + noise > maxRadius || cell.x < 40 || cell.x > 760 || cell.y < 40 || cell.y > 760) {
-                    if (cell.options.has(0)) {
-                        activeSolver.userCollapse(cell, 0, true);
-                    }
-                }
-            });
-            setGrid(activeGrid);
-            setSolver(activeSolver);
-        }
-
-        setIsGenerating(true);
-        setStatus('Synthesizing Terrain...');
-        setProgress(0);
-
-        activeSolver.autoGenerate(
-            { vegetation, civilization, clustering, inlandWater, beachFormation, pathGeneration },
-            (p) => setProgress(p),
-            () => {
-                setStatus('Generation Complete!');
-                setIsGenerating(false);
-            }
-        );
-    };
-
-    const handleCellClick = (_id: number) => {
-        // In procedural mode, clicking is disabled to prevent manual overriding during or after generation.
-    };
-
+    const { grid,pointCount,setPointCount,waterLevel,setWaterLevel,vegetation,setVegetation,civilization,setCivilization,clustering,setClustering,inlandWater,setInlandWater,beachFormation,setBeachFormation,pathGeneration,setPathGeneration,status,isGenerating,progress,handleReset,handleGenerate }=useOrganicGeneration(1000);
+    const [tooltipInfo,setTooltipInfo]=useState<{html:string;x:number;y:number}|null>(null);
+    const handleCellClick=()=>{};
     return (
         <>
             {/* Canvas Area (No Overlay) */}

@@ -1,6 +1,6 @@
 import { Grid } from './Grid';
 import { Cell } from './Cell';
-import { TILES, DIRS, DIR_OFFSETS, validNeighbors, BASE_TERRAIN_TO_TILE_IDX } from './Tiles';
+import { DIRS, DIR_OFFSETS, validNeighbors, BASE_TERRAIN_TO_TILE_IDX } from './Tiles';
 import { animate } from 'animejs';
 
 export type InteractiveSolverState = 'idle' | 'propagating' | 'error';

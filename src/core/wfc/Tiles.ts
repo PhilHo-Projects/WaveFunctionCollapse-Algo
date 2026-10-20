@@ -1,4 +1,4 @@
-import type { Tile } from './Cell';
+import type { Tile, Sockets } from './Cell';
 
 // ── Drawing helpers ──────────────────────────
 export function drawWater(ctx: CanvasRenderingContext2D, x: number, y: number, s: number) {
@@ -135,7 +135,7 @@ export const TERRAIN_NAMES: Record<number, string> = {
     4: 'Mountain',
 };
 
-const TERRAIN_DRAWS: Record<number, any> = {
+const TERRAIN_DRAWS: Record<number, Tile['draw']> = {
     0: drawWater,
     1: drawSand,
     2: drawGrass,
@@ -147,7 +147,7 @@ export const TILES: Tile[] = [];
 export const BASE_TERRAIN_TO_TILE_IDX: Record<number, number> = {};
 
 let tileId = 0;
-function addTile(name: string, sockets: any, drawFn: any, weight = 1, baseTerrainId: number | null = null) {
+function addTile(name: string, sockets: Sockets, drawFn: Tile['draw'], weight = 1, baseTerrainId: number | null = null) {
     TILES.push({ id: tileId++, name, sockets, draw: drawFn, weight, baseTerrainId });
 }
 
@@ -179,8 +179,8 @@ for (const [a, b] of TRANSITIONS) {
     addTile(nameAB, { north: b, east: b, south: a, west: b }, makeTransitionDraw(cB, cA, 'v'), 1);
 }
 
-export const OPPOSITE: Record<string, string> = { north: 'south', south: 'north', east: 'west', west: 'east' };
-export const DIRS = ['north', 'east', 'south', 'west'];
+export const OPPOSITE: Record<keyof Sockets, keyof Sockets> = { north: 'south', south: 'north', east: 'west', west: 'east' };
+export const DIRS = ['north', 'east', 'south', 'west'] as const;
 export const DIR_OFFSETS: Record<string, [number, number]> = {
     north: [0, -1],
     east: [1, 0],
@@ -192,10 +192,10 @@ export const validNeighbors = TILES.map((tile) => {
     const map: Record<string, Set<number>> = {};
     for (const dir of DIRS) {
         map[dir] = new Set();
-        const mySocket = (tile.sockets as any)[dir];
+        const mySocket = tile.sockets[dir];
         const oppDir = OPPOSITE[dir];
         for (let j = 0; j < TILES.length; j++) {
-            if ((TILES[j].sockets as any)[oppDir] === mySocket) {
+            if (TILES[j].sockets[oppDir] === mySocket) {
                 map[dir].add(j);
             }
         }

@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated checks and local browser artifacts
+Test/.compiled/
+.playwright-cli/
+test-results/
+playwright-report/
+*.blend1

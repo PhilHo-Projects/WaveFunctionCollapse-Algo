@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import ExplainerMode from './pages/ExplainerMode';
 import BuilderMode from './pages/BuilderMode';
 import TownscaperMode from './pages/TownscaperMode';
 import TownscaperGenMode from './pages/TownscaperGenMode';
-import Townscaper3DProcedural from './pages/Townscaper3DMode'; // Renamed from Townscaper3DMode
-import Townscaper3DBuilder from './pages/Townscaper3DBuilderLevel'; // Added new import
+const Townscaper3DProcedural = lazy(() => import('./pages/Townscaper3DMode'));
+const Townscaper3DBuilder = lazy(() => import('./pages/Townscaper3DBuilderLevel'));
+const CanalTown = lazy(() => import('./canal/CanalTown'));
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
     const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -19,7 +20,8 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
                     <p className="text-[--text-secondary] text-sm mt-0.5">Interactive Algorithms</p>
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
-                    <NavLink to="/" className={navLinkClass}>Explainer</NavLink>
+                    <NavLink to="/" className={navLinkClass}>Canal Town</NavLink>
+                    <NavLink to="/learn" className={navLinkClass}>Explainer</NavLink>
                     <NavLink to="/builder" className={navLinkClass}>Builder</NavLink>
                     <NavLink to="/townscaper" className={navLinkClass}>Townscaper (Builder)</NavLink>
                     <NavLink to="/townscaper-gen" className={navLinkClass}>Townscaper (Procedural)</NavLink>
@@ -34,17 +36,19 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <AppLayout>
-                <Routes>
-                    <Route path="/" element={<ExplainerMode />} />
-                    <Route path="/builder" element={<BuilderMode />} />
-                    <Route path="/townscaper" element={<TownscaperMode />} />
-                    <Route path="/townscaper-gen" element={<TownscaperGenMode />} />
-                    <Route path="/townscaper-builder-3d" element={<Townscaper3DBuilder />} />
-                    <Route path="/townscaper-procedural-3d" element={<Townscaper3DProcedural />} />
-                </Routes>
-            </AppLayout>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
+            <Suspense fallback={<div style={{padding:40}}>Opening the town…</div>}>
+              <Routes>
+                <Route path="/" element={<CanalTown />} />
+                <Route path="/learn" element={<AppLayout><ExplainerMode /></AppLayout>} />
+                <Route path="/builder" element={<AppLayout><BuilderMode /></AppLayout>} />
+                <Route path="/townscaper" element={<AppLayout><TownscaperMode /></AppLayout>} />
+                <Route path="/townscaper-gen" element={<AppLayout><TownscaperGenMode /></AppLayout>} />
+                <Route path="/townscaper-builder-3d" element={<AppLayout><Townscaper3DBuilder /></AppLayout>} />
+                <Route path="/townscaper-procedural-3d" element={<AppLayout><Townscaper3DProcedural /></AppLayout>} />
+                <Route path="*" element={<AppLayout><p>That place isn’t on this map. <NavLink to="/">Return to Canal Town</NavLink>.</p></AppLayout>} />
+              </Routes>
+            </Suspense>
         </BrowserRouter>
     );
 }

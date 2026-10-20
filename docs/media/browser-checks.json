@@ -1,0 +1,56 @@
+{
+  "stats": {
+    "startTime": "2026-10-19T23:12:06.127Z",
+    "duration": 36490.943999999996,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "checks": [
+    {
+      "title": "builds, removes, restores, and never edits while orbiting",
+      "status": "passed"
+    },
+    {
+      "title": "creates and removes a complete bridge transaction",
+      "status": "passed"
+    },
+    {
+      "title": "round-trips JSON and rejects an incompatible save without losing the town",
+      "status": "passed"
+    },
+    {
+      "title": "rolls back a contradictory edit and identifies its conflicting cell",
+      "status": "passed"
+    },
+    {
+      "title": "cancels a generation without committing a stale response",
+      "status": "passed"
+    },
+    {
+      "title": "shows a useful failure when the Blender asset is unavailable",
+      "status": "passed"
+    },
+    {
+      "title": "offers a learning route when WebGL is unavailable",
+      "status": "passed"
+    },
+    {
+      "title": "keeps every earlier experiment directly reachable under the base path",
+      "status": "passed"
+    },
+    {
+      "title": "records frame and edit timings on the current desktop",
+      "status": "passed"
+    },
+    {
+      "title": "captures daylight, evening and real backtracking in the lens",
+      "status": "passed"
+    },
+    {
+      "title": "supports mobile controls, direct learning navigation, and accessible focus",
+      "status": "passed"
+    }
+  ]
+}
